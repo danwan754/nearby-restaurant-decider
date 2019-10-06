@@ -2,7 +2,7 @@ import React from 'react';
 
 import DropDownMenu from './DropDownMenu';
 import InputRadius from './InputRadius';
-// import InputPostalCode from './InputPostalCode';
+import InputPostalCode from './InputPostalCode';
 
 
 class InputBar extends React.Component {
@@ -24,6 +24,7 @@ class InputBar extends React.Component {
         this.handleSelect = this.handleSelect.bind(this);
         this.handleRadiusInput = this.handleRadiusInput.bind(this);
         this.handlePostalCodeInput = this.handlePostalCodeInput.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     // handles establishment selection
@@ -39,13 +40,17 @@ class InputBar extends React.Component {
         this.setState({postal_code: postalCode});
     }
 
+    handleSubmit() {
+        
+    }
+
     render() {
         return(
             <div>
-                <h3>blah</h3>
                 <DropDownMenu establishments={this.state.establishments} onSelect={this.handleSelect} />
-                <InputRadius radius={this.state.radius} onRadiusInput={this.handleRadiusInput} />
-                {/* <InputPostalCode onPostalInput={this.handlePostalCodeInput} /> */}
+                <InputRadius radius={this.state.radius} onInput={this.handleRadiusInput} />
+                <InputPostalCode onInput={this.handlePostalCodeInput} />
+                <input type="submit" onClick={this.handleSubmit} />
             </div>
         )
     }

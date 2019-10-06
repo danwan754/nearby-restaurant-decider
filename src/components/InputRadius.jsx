@@ -8,7 +8,7 @@ class InputRadius extends React.Component {
     }
 
     handleChange() {
-        this.props.onRadiusInput(document.getElementById("input-radius").value);
+        this.props.onInput(document.getElementById("input-radius").value);
     }
 
     render() {
