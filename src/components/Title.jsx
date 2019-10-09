@@ -6,13 +6,13 @@ class Title extends React.Component {
     render() {
         return (
             <div>
-                <h2>
+                <h1>
                     Nearby Restaurant Decision Maker
-                </h2>
+                </h1>
                 <hr></hr>
-                <h4>
+                <h3>
                     Can't decide where to eat? Let me choose!
-                </h4>
+                </h3>
             </div>
         )
     }

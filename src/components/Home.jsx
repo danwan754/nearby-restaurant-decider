@@ -4,6 +4,8 @@ import {Redirect} from 'react-router-dom';
 import Title from './Title';
 import InputBar from './InputBar';
 
+import '../css/Home.css';
+
 class Home extends React.Component {
 
     state = {
@@ -36,10 +38,12 @@ class Home extends React.Component {
         }
         return (
             <div className="home-background">
-                <Title />
-                <InputBar 
-                    onSubmit={this.handleSubmit}
-                    submitClassName="center-submit" />
+                <div className="home-content">
+                    <Title />
+                    <InputBar 
+                        onSubmit={this.handleSubmit}
+                        submitClassName="center-submit" />
+                </div>
             </div>
         );
     }

@@ -15,7 +15,9 @@ class DropDownMenu extends React.Component {
     render() {
         return (
             <div>
-                <select id="dropdown-menu-establishment" onChange={this.handleSelect}>
+                <select 
+                    id="dropdown-menu-establishment" 
+                    onChange={this.handleSelect}>
                     {this.props.establishments.map(establishment => ( 
                         <option key={establishment}>{establishment}</option> 
                     ))}

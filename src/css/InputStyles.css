@@ -1,0 +1,30 @@
+
+.input-bar {
+    text-align: center;
+    padding: 30px;
+    margin-top: 50px;
+
+    /* border: solid blue 3px; */
+}
+
+input, select {
+    border-radius: 8px;
+    width: 125px;
+    font-size: 1em;
+    margin: 3px;
+    text-align: center;
+
+    /* border: solid blue 1px; */
+}
+
+.inline {
+    display: inline-block;
+}
+
+.center-submit {
+    margin-top: 50px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 2em;
+}

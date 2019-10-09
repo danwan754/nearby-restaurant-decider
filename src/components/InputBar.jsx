@@ -4,6 +4,8 @@ import DropDownMenu from './DropDownMenu';
 import InputRadius from './InputRadius';
 import InputPostalCode from './InputPostalCode';
 
+import '../css/InputStyles.css';
+
 
 class InputBar extends React.Component {
 
@@ -52,13 +54,10 @@ class InputBar extends React.Component {
     handleSubmit() {
         if (this.isPostalCodeFormat(this.state.query_data.postal_code)) {
             this.props.onSubmit(this.state.query_data);
-
-            // fetch nearby establishments
-            // const result = getNearbyEstablishments(this.state.query_data);
-            // if (result.status==OK): <Redirect to='/result' result=result />
         }
         else {
             // display error message
+            console.log("invalid postal code");
         }
     }
 
@@ -77,19 +76,26 @@ class InputBar extends React.Component {
     render() {
         const input = this.state.query_data;
         return(
-            <div>
-                <DropDownMenu 
-                    establishments={this.state.establishments} 
-                    onSelect={this.handleSelect} />
-                <InputRadius 
-                    value={input.radius} 
-                    onInput={this.handleRadiusInput} />
-                <InputPostalCode 
-                    value={input.postal_code}
-                    onInput={this.handlePostalCodeInput} />
+            <div className="input-bar" >
+                <div className="inline">
+                    <DropDownMenu
+                        establishments={this.state.establishments} 
+                        onSelect={this.handleSelect} />
+                </div>
+                <div className="inline" >
+                    <InputRadius
+                        value={input.radius} 
+                        onInput={this.handleRadiusInput} />
+                </div>
+                <div className="inline" >
+                    <InputPostalCode
+                        value={input.postal_code}
+                        onInput={this.handlePostalCodeInput} />
+                </div>
                 <input 
-                    className={this.props.submitClassName ? this.props.submitClassName: 'inlineSubmit'}
-                    type="submit" 
+                    className={this.props.submitClassName ? this.props.submitClassName : "inline" }
+                    type="submit"
+                    value="Find" 
                     onClick={this.handleSubmit} />
             </div>
         );
