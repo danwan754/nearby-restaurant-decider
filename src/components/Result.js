@@ -3,6 +3,8 @@ import React from 'react';
 import InputBar from './InputBar';
 import ResultDetail from './ResultDetail';
 
+import '../css/Result.css';
+
 class Result extends React.Component {
 
     state = {
@@ -33,15 +35,11 @@ class Result extends React.Component {
 
     render() {
         return (
-            <div>
-                <div className="input-bar">
-                    <InputBar
-                        onSubmit={this.handleSubmit} />
-                </div>
-                <div className="result-container">
-                    <ResultDetail 
-                        result={this.state.results} />
-                </div>
+            <div className="result-container">
+                <InputBar
+                    onSubmit={this.handleSubmit} />
+                {/* <ResultDetail 
+                    result={this.state.results} /> */}
             </div>
         );
     }
