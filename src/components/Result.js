@@ -13,24 +13,28 @@ class Result extends React.Component {
 
     constructor() {
         super();
-        
+        this.getNearbyEstablishments = this.getNearbyEstablishments.bind(this);
     }
 
     componentDidMount() {
         // fetch nearby establishments with input data given by Home page
         if (this.props.location.state.query_data) {
-            // const result = getNearbyEstablishments(this.state.query_data);
+            // const result = this.getNearbyEstablishments(this.props.location.state.query_data);
             // this.setState({ results: result });
         }
     }
 
+    getNearbyEstablishments(query_data) {
+        // fetch nearby establishments
+        // const result = 
+    } 
 
     handleSubmit(query_object) {
         this.setState({
-            query_data: query_object,
-            toResults: true
+            query_data: query_object
         });
     }
+
 
 
     render() {
