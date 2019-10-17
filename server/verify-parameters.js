@@ -5,16 +5,23 @@
     constructor() {
         this.establishments = ['restaurant', 'cafe', 'bakery', 'bar'];
         this.countryCodes = ['ca'];
-
-        // meters
         this.minRadius = 500;
         this.maxRadius = 5000;
+
+        this.verifyEstablishment = this.verifyEstablishment.bind(this);
+        this.verifyPostalCode = this.verifyPostalCode.bind(this);
+        this.verifyRadius = this.verifyRadius.bind(this);
+        this.verifyCountryCode = this.verifyCountryCode.bind(this);
+        this.isEstablishment = this.isEstablishment.bind(this);
+        this.isPostalCode = this.isPostalCode.bind(this);
+        this.isRadius = this.isRadius.bind(this);
+        this.isCountryCode = this.isCountryCode.bind(this);
     }
 
 
     // Return establishment if parameter is acceptable
     verifyEstablishment(establishment, res) {
-        if (isEstablishment(establishment)) {
+        if (this.isEstablishment(establishment)) {
             return establishment;
         }
         else {
@@ -25,7 +32,7 @@
 
     // Return postal_code if it is in correct postal code format (Canada)
     verifyPostalCode(postalCode, res) {
-        if (isPostalCode(postalCode)) {
+        if (this.isPostalCode(postalCode)) {
             return postalCode;
         }
         else {
@@ -36,7 +43,7 @@
 
     // Return radius if it is in range 1000 - 5000
     verifyRadius(radius, res) {
-        if (isRadius(radius)) {
+        if (this.isRadius(radius)) {
             return radius;
         }
         else {
