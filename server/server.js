@@ -24,15 +24,32 @@ const API_KEY = process.env.GOOGLE_SECRET_KEY || "test_key";
 const BASE_URL = "https://maps.googleapis.com/maps/api/place";
 
 // Return coordinates [lat, long]
-getCoordinates = (countryCode, postalCode) => {
-    const url = "https://maps.googleapis.com/maps/api/geocode/json?components=country:" + countryCode + "|postal_code:" + postalCode + "&key=" + GOOGLE_SECRET_KEY;
+getCoordinates = (countryCode, postalCode, res) => {
+    const url = "https://maps.googleapis.com/maps/api/geocode/json?components=country:" + countryCode + "|postal_code:" + postalCode + "&key=" + API_KEY;
+    console.log(url);
     return (
         axios.get(url)
         .then(response => {
-            const location = response.results[0].geometry.location;
-            const lat = location.lat;
-            const lng = location.lng;
-            return [lat, lng];
+            console.log(response.data);
+            return response.data;
+        })
+        .then(data => {
+            console.log("status: " + data.status);
+            if(data.status === 'OK') {
+                console.log("data.status is OK");
+                const location = response.results[0].geometry.location;
+                const lat = location.lat;
+                const lng = location.lng;
+                // return [lat, lng];
+                res.send({"coordinates": [lat, lng]});
+            }
+            else {
+                console.log("data.status is NOTOK");
+                res.status(400).send({ 
+                    "error": data.status,
+                    "error_message": data.error_message 
+                });
+            }
         })
     );
 }
@@ -68,11 +85,12 @@ validateQuery = (queryObject, res) => {
 
 // get nearby establishments
 app.get('/api/nearby-establishments', function(req, res) {
-    console.log("before validation");
+    // console.log("before validation");
     queryObject = validateQuery(req.query, res);
-    console.log("after validation");
+    // console.log("after validation");
 
-    // const coordinates = getCoordinates(queryObject.countryCode, queryObject.postalCode);
+    const coordinates = getCoordinates(queryObject.countryCode, queryObject.postalCode, res);
+    // res.send({"coordinates": coordinates});
 
     // queryObject = buildQueryObject(queryObject.establishment, queryObject.radius, coordinates[0], coordinates[1]);
     queryObject = buildQueryObject(queryObject.establishment, queryObject.radius, -11, -111);
@@ -81,14 +99,14 @@ app.get('/api/nearby-establishments', function(req, res) {
     const queryString = new URLSearchParams(queryObject).toString();
     var url = BASE_URL + "/nearbysearch/json?" + queryString;
 
-    console.log("nearby-restaurant url: " + url);
+    // console.log("nearby-restaurant url: " + url);
 
     // axios.get(url)
     // .then(response => {
     //     console.log(response);
     //     res.send(response.data);
     // });
-    res.send('{"test": "yes"}');
+    // res.send('{"test": "yes"}');
 });
 
 // "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=49.2793855,-123.0328861&radius=1000&type=restaurant&key=" + API_KEY
