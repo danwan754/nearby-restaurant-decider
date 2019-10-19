@@ -136,7 +136,7 @@ app.get('/api/nearby-establishments', async function(req, res) {
 // get establishment details
 app.get('/api/place-details', async function(req, res) {
     const place_id = req.query.place_id;
-    var url = BASE_PLACE_URL + "/details/json?place_id=" + place_id + "&fields=name,rating,user_ratings_total,price_level,review,formatted_phone_number,photo&key=" + API_KEY
+    var url = BASE_PLACE_URL + "/details/json?place_id=" + place_id + "&fields=name,rating,user_ratings_total,price_level,review,formatted_phone_number,opening_hours,website,photo,formatted_address&key=" + API_KEY
     console.log(url);
 
     axios.get(url)
@@ -156,7 +156,7 @@ app.get('/api/place-details', async function(req, res) {
 
 
 // "https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photoreference=[...]&key=" + API_KEY
-// "https://maps.googleapis.com/maps/api/place/details/json?place_id=ChIJS4_UvdpwhlQRNHG06Q5i4lk&fields=name,rating,user_ratings_total,price_level,review,formatted_phone_number,photo&key=" + API_KEY
+// "https://maps.googleapis.com/maps/api/place/details/json?place_id=ChIJS4_UvdpwhlQRNHG06Q5i4lk&fields=name,rating,user_ratings_total,price_level,review,formatted_phone_number,opening_hours,website,photo&key=" + API_KEY
 
 // const countryCode = Verify.verifyCountryCode(req.query.country_code, res);
 // const postalCode = Verify.verifyPostalCode(req.query.postal_code, res);
