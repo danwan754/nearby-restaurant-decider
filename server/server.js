@@ -48,10 +48,11 @@ getCoordinates = (countryCode, postalCode, res) => {
             }
             else {
                 console.log("data.status is NOTOK");
-                res.status(400).send({ 
-                    "error": data.status,
-                    "error_message": data.error_message 
-                });
+                // res.status(400).send({ 
+                //     "error": data.status,
+                //     "error_message": data.error_message 
+                // });
+                sendErrorResponse(data.status, data.error_message, res);
             }
         })
     );
@@ -86,6 +87,15 @@ validateQuery = (queryObject, res) => {
     );
 }
 
+// return error message for fail Google API call
+sendErrorResponse = (status, error_message, response) => {
+    response.status(400).send({ 
+        "error": status,
+        "error_message": error_message 
+    });
+}
+
+
 // get nearby establishments
 app.get('/api/nearby-establishments', async function(req, res) {
     queryObject = validateQuery(req.query, res);
@@ -109,11 +119,16 @@ app.get('/api/nearby-establishments', async function(req, res) {
     .then(data => {
         // console.log(data);
 
-        // get the place_id for every place
-        place_ids = data.results.map(place => place.place_id)
-        // console.log(place_ids);
+        if (data.status == 'OK') {
+            // get the place_id for every place
+            place_ids = data.results.map(place => place.place_id)
+            // console.log(place_ids);
 
-        res.send(place_ids);
+            res.send(place_ids);
+        }
+        else {
+            sendErrorResponse(data.status, data.error_message, res);
+        }
     });
 });
 
@@ -126,8 +141,16 @@ app.get('/api/place-details', async function(req, res) {
 
     axios.get(url)
     .then(response => {
-        console.log(response.data);
-        res.send(response.data);
+        return response.data;
+    })
+    .then(data => {
+        console.log(data);
+        if (data.status == 'OK') {
+            res.send(data);
+        }
+        else {
+            sendErrorResponse(data.status, data.error_message, res);
+        }
     });
 });
 
