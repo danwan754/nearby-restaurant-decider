@@ -21,8 +21,9 @@
 
     // Return establishment if parameter is acceptable
     verifyEstablishment(establishment, res) {
-        if (this.isEstablishment(establishment)) {
-            return establishment;
+        const establishmentLowerCase = establishment.toLowerCase();
+        if (this.isEstablishment(establishmentLowerCase)) {
+            return establishmentLowerCase;
         }
         else {
             const message = "Invalid parameter for establishment; " + "\'" + establishment + "\'" + " is unacceptable.";
@@ -47,14 +48,15 @@
             return radius;
         }
         else {
-            const message = "Invalid parameter for radius; " + "\'" + radius + "\'" + " is out of acceptable range from " + minRadius + " to " + maxRadius;
+            const message = "Invalid parameter for radius; " + "\'" + radius + "\'" + " is out of acceptable range from " + this.minRadius + " to " + this.maxRadius + ".";
             res.status(400).send(message);
         }
     }
 
     // Return countryCode if it exists. (Canada only for now)
     verifyCountryCode(countryCode, res) {
-        if (this.isCountryCode(countryCode)) {
+        const countryCodeLowerCase = countryCode.toLowerCase();
+        if (this.isCountryCode(countryCodeLowerCase)) {
             return countryCode;
         }
         else {
@@ -65,8 +67,7 @@
 
 
     isEstablishment(establishment) {
-        const establishmentLowerCase = establishment.toLowerCase();
-        if (this.establishments.includes(establishmentLowerCase)) {
+        if (this.establishments.includes(establishment)) {
             return true;
         }
         return false;
@@ -87,8 +88,7 @@
     }
 
     isCountryCode(countryCode) {
-        const countryCodeLowerCase = countryCode.toLowerCase();
-        if (this.countryCodes.includes(countryCodeLowerCase)) {
+        if (this.countryCodes.includes(countryCode)) {
             return true;
         }
         return false;
