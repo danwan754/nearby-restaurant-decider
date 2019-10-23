@@ -8,26 +8,103 @@ import '../css/Result.css';
 class Result extends React.Component {
 
     state = {
-        results: {}
+        placeIDs: [],
+        currentPlaceID: '',
+        place: {}
     }
 
     constructor() {
         super();
         this.getNearbyEstablishments = this.getNearbyEstablishments.bind(this);
+        this.selectRandomPlace = this.selectRandomPlace.bind(this);
+        this.deletePlace = this.deletePlace.bind(this);
+        this.getPlaceDetails = this.getPlaceDetails.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleSkip = this.handleSkip.bind(this);
     }
 
     componentDidMount() {
-        // fetch nearby establishments with input data given by Home page
-        if (this.props.location.state.query_data) {
-            // const result = this.getNearbyEstablishments(this.props.location.state.query_data);
-            // this.setState({ results: result });
+        var queryObject = this.props.location.state;
+        console.log(this.props.location.state);
+
+        // query data given by home page
+        if (!queryObject){
+            console.log("nothing");
+            return;
         }
+        // query_data = props.location.state.query_data;
+
+        this.getNearbyEstablishments(queryObject);
     }
 
-    getNearbyEstablishments(query_data) {
-        // fetch nearby establishments
-        // const result = 
-    } 
+    getNearbyEstablishments(queryObject) {
+        var queryString = new URLSearchParams(queryObject).toString();
+        console.log(queryString);
+        var url = '/api/nearby-establishments?' + queryString;
+        fetch(url)
+        .then(response => { 
+            if (response.ok) {
+                return response.json();
+            }
+            else {
+                throw new Error("Error: status code " + response.status);
+            }
+        })
+        .then(result => {
+            console.log(result);
+            this.setState({ placeIDs: result });
+            const index = this.selectRandomPlace(result);
+            this.getPlaceDetails(result[index]);
+        })
+        .catch(error => {
+            console.log(error);
+        });
+    }
+
+    // randomly select a place from list of places
+    selectRandomPlace(placeIDs) {
+        const length = placeIDs.length;
+        if (length === 0) {
+            return null;
+        }
+        const index = Math.floor((Math.random() * length) + 1);
+        this.setState({ currentPlaceID: placeIDs[index] });
+        return index;
+    }
+
+    // delete a place from list of places
+    // deletePlace(index) {
+    deletePlace() {
+        // var placeIDs = this.state.placeIDs.slice();
+        // console.log(placeIDs);
+        console.log(this.state.placeIDs);
+        const placeIDs = this.state.placeIDs.map(place => place != this.state.currentPlaceID);
+        // placeIDs.splice(index, 1);
+        console.log(placeIDs);
+        this.setState({ placeIDs: placeIDs });
+        return placeIDs;
+    }
+
+    // fetch place details
+    getPlaceDetails(placeID) {
+        var url = "/api/place-details" + "?place_id=" + placeID;
+        fetch(url)
+        .then(response => {
+            if (response.ok) {
+                return response.json();
+            }
+            else {
+                throw new Error("Error: status code " + response.status);
+            }
+        })
+        .then(result => {
+            this.setState({ place: result });
+        })
+        .catch(error => {
+            console.log(error);
+            this.setState({ place: {} });
+        });
+    }
 
     handleSubmit(query_object) {
         this.setState({
@@ -35,15 +112,24 @@ class Result extends React.Component {
         });
     }
 
+    // delete the current place object from results and show the new place
+    handleSkip() {
+        const placeIDs = deletePlace();
+        const index = this.selectRandomPlace();
+        this.getPlaceDetails(placeIDs[index]);
+    }
+
 
 
     render() {
-        return (
+        return(
             <div className="result-container">
                 <InputBar
                     onSubmit={this.handleSubmit} />
                 {/* <ResultDetail 
-                    result={this.state.results} /> */}
+                    place={this.state.place}
+                    onSubmit={this.handleSkip} /> */}
+                {/* <div>{ Object.keys(this.state.results).length ? JSON.stringify(this.state.results) : 'nothing'}</div>    */}
             </div>
         );
     }
