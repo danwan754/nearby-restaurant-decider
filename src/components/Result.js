@@ -10,7 +10,8 @@ class Result extends React.Component {
     state = {
         placeIDs: [],
         currentPlaceID: '',
-        place: {}
+        place: {},
+        isLoading: false
     }
 
     constructor() {
@@ -41,6 +42,7 @@ class Result extends React.Component {
         var queryString = new URLSearchParams(queryObject).toString();
         console.log(queryString);
         var url = '/api/nearby-establishments?' + queryString;
+        this.setState({ isLoading: true });
         fetch(url)
         .then(response => { 
             if (response.ok) {
@@ -51,13 +53,14 @@ class Result extends React.Component {
             }
         })
         .then(result => {
-            console.log(result);
+            console.log("result: " + result);
             this.setState({ placeIDs: result });
             const index = this.selectRandomPlace(result);
             this.getPlaceDetails(result[index]);
         })
         .catch(error => {
-            console.log(error);
+            this.setState({ isLoading: false });
+            console.log("error caught: " + error);
         });
     }
 
@@ -101,23 +104,30 @@ class Result extends React.Component {
             }
         })
         .then(result => {
-            this.setState({ place: result });
+            this.setState({ 
+                place: result,
+                isLoading: false
+             });
         })
         .catch(error => {
             console.log(error);
-            this.setState({ place: {} });
+            this.setState({ 
+                place: {},
+                isLoading: false
+            });
         });
     }
 
     handleSubmit(query_object) {
-        this.setState({
-            query_data: query_object
-        });
+        this.getNearbyEstablishments(query_object);
+        // this.setState({
+        //     query_data: query_object
+        // });
     }
 
     // delete the current place object from results and show the new place
     handleSkip() {
-        const placeIDs = deletePlace();
+        const placeIDs = this.deletePlace();
         const index = this.selectRandomPlace();
         this.getPlaceDetails(placeIDs[index]);
     }
@@ -132,7 +142,13 @@ class Result extends React.Component {
                 {/* <ResultDetail 
                     place={this.state.place}
                     onSubmit={this.handleSkip} /> */}
-                {/* <div>{ Object.keys(this.state.results).length ? JSON.stringify(this.state.results) : 'nothing'}</div>    */}
+                { this.state.isLoading ? "Loading ..." : (
+                    <div>
+                        <div>{ this.state.placeIDs.length > 0 ? this.state.placeIDs : 'nothing' }</div>
+                        <div>{ this.state.currentPlaceID ? this.state.currentPlaceID : 'nothing' }</div>
+                        <div>{ Object.keys(this.state.place).length > 0 ? JSON.stringify(this.state.place) : 'nothing' }</div>
+                    </div> 
+                )}  
             </div>
         );
     }
