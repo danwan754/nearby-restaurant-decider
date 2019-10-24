@@ -1,0 +1,86 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Result Component. selectRandomPlace(placeIDs) renders correctly 1`] = `
+<div
+  className="result-container"
+>
+  <div
+    className="input-bar"
+  >
+    <div
+      className="sub-input-bar"
+    >
+      <div
+        className="inline"
+      >
+        <div>
+          <select
+            id="dropdown-menu-establishment"
+            onChange={[Function]}
+          >
+            <option>
+              Restaurant
+            </option>
+            <option>
+              Cafe
+            </option>
+            <option>
+              Bakery
+            </option>
+            <option>
+              Bar
+            </option>
+          </select>
+        </div>
+      </div>
+      <div
+        className="inline"
+      >
+        <div>
+          <input
+            id="input-radius"
+            max="5000"
+            min="500"
+            onChange={[Function]}
+            step="500"
+            type="number"
+            value={2000}
+          />
+        </div>
+      </div>
+      <div
+        className="inline"
+      >
+        <div>
+          <input
+            id="inputPostalCode"
+            maxLength="6"
+            onChange={[Function]}
+            type="text"
+            value=""
+          />
+        </div>
+      </div>
+      <div
+        className=""
+      >
+        <div
+          className="country-container"
+        >
+          <img
+            alt="No image"
+            className="country-img"
+            src="canada.png"
+          />
+        </div>
+      </div>
+    </div>
+    <input
+      className="input-submit inline"
+      onClick={[Function]}
+      type="submit"
+      value="Find"
+    />
+  </div>
+</div>
+`;

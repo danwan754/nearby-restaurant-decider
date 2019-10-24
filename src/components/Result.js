@@ -24,8 +24,8 @@ class Result extends React.Component {
     }
 
     componentDidMount() {
-        var queryObject = this.props.location.state;
-        console.log(this.props.location.state);
+        var queryObject = this.props.location ? this.props.location.state : false;
+        // console.log(this.props.location.state);
 
         // query data given by home page
         if (!queryObject){
@@ -77,11 +77,14 @@ class Result extends React.Component {
     deletePlace() {
         // var placeIDs = this.state.placeIDs.slice();
         // console.log(placeIDs);
-        console.log(this.state.placeIDs);
-        const placeIDs = this.state.placeIDs.map(place => place != this.state.currentPlaceID);
+        // console.log(this.state.placeIDs);
+        const placeIDs = this.state.placeIDs.filter(place => place != this.state.currentPlaceID);
         // placeIDs.splice(index, 1);
-        console.log(placeIDs);
-        this.setState({ placeIDs: placeIDs });
+        // console.log(placeIDs);
+        this.setState({ 
+            placeIDs: placeIDs,
+            place: ''
+        });
         return placeIDs;
     }
 
