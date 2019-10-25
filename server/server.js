@@ -108,7 +108,6 @@ app.get('/api/nearby-establishments', async function(req, res) {
     
     const queryString = new URLSearchParams(queryObject).toString();
 
-    // url like https://maps.googleapis.com/maps/api/place/nearbysearch/json?type=restaurant&location=49.44444%2C-123.222222&radius=1000&key="api_key"
     var url = BASE_PLACE_URL + "/nearbysearch/json?" + queryString;
 
     // console.log("nearby-restaurant url: " + url);
@@ -157,8 +156,6 @@ app.get('/api/place-details', async function(req, res) {
 
 
 // "https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photoreference=[...]&key=" + API_KEY
-// "https://maps.googleapis.com/maps/api/place/details/json?place_id=ChIJS4_UvdpwhlQRNHG06Q5i4lk&fields=name,rating,user_ratings_total,price_level,review,formatted_phone_number,opening_hours,website,photo&key=" + API_KEY
-
 
 
 app.listen(process.env.PORT || 3001);

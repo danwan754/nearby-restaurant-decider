@@ -3,7 +3,7 @@ import React from 'react';
 class ResultDetail extends React.Component {
 
     render() {
-        if (!this.props.result) {
+        if (Object.keys(this.props.place).length === 0) {
             console.log("No results");
             return (
                 <div>
@@ -11,31 +11,45 @@ class ResultDetail extends React.Component {
                 </div>
             );
         }
+
+        const place = this.props.place;
         return (
-            <div>
-                <div className="left-side-result-container">
-                    <img id="restaurant-main-img">{ this.props.result.mainImg }</img>
-                    <p id="restaurant-name">{ this.props.result.name }</p>
-                    <p id="restaurant-details">
-                        { this.props.result.hours }
-                        { this.props.result.contact }
-                    </p>
-                    <div className="gallery">
-                        { this.props.result.photos.map(img => (
-                            <img src={ img }></img>
-                        ))}
+            <div className="result-detail-container">
+                <div className="side-result-container">
+                    <img id="restaurant-main-img">{  }</img>
+                    <div className="result-text-content">
+                        <p id="restaurant-name">{ place.name }</p>
+                        <div id="restaurant-contact">
+                            <p>{ place.formatted_phone_number }</p>
+                            <p>{ place.website }</p>
+                        </div>
+                        <div id="restaurant-hours">{ 
+                            place.opening_hours.weekday_text.map( (day, index) => (
+                                <p className="day-hours" key={index}>
+                                    { day }
+                                </p>
+                            ))}
+                        </div>
+                        <div className="gallery">
+                            {/* { this.props.result.photos.map(img => ( */}
+                                {/* <img src={ img }></img> */}
+                            {/* ))} */}
+                        </div>
                     </div>
                 </div>
-                <div className="right-side-result-container">
-                    <div className="reviews-container">
-                        {/* <SortReviews /> */}
-                        { this.props.result.reviews.map(review => (
-                            <div className="review">
-                                { review.author }
-                                { review.rating }
-                                { review.comment }
-                            </div>
-                        ))}
+                <div className="side-result-container">
+                    <div className="result-text-content">
+                        <div className="reviews-container">
+                            {/* <SortReviews /> */}
+                            { place.reviews.map( (review, index) => (
+                                <div className="review" key={index} >
+                                    <span>{ review.author_name }</span>
+                                    <span>  { review.rating }</span>
+                                    <p>{ review.relative_time_description }</p>
+                                    <p>{ review.text }</p>
+                                </div>
+                            ))}
+                        </div>
                     </div>
                 </div>
                 
