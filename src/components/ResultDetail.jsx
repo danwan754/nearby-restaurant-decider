@@ -15,11 +15,12 @@ class ResultDetail extends React.Component {
         const place = this.props.place;
         return (
             <div className="result-detail-container">
-                <div className="side-result-container">
+                <div className="side-result-container left-side">
                     <img id="restaurant-main-img">{  }</img>
-                    <div className="result-text-content">
-                        <p id="restaurant-name">{ place.name }</p>
+                    <p id="restaurant-name">{ place.name }</p>
+                    <div className="contact-hours-photo-container">
                         <div id="restaurant-contact">
+                            <p>{ place.formatted_address }</p>
                             <p>{ place.formatted_phone_number }</p>
                             <p>{ place.website }</p>
                         </div>
@@ -37,22 +38,19 @@ class ResultDetail extends React.Component {
                         </div>
                     </div>
                 </div>
-                <div className="side-result-container">
-                    <div className="result-text-content">
-                        <div className="reviews-container">
-                            {/* <SortReviews /> */}
-                            { place.reviews.map( (review, index) => (
-                                <div className="review" key={index} >
-                                    <span>{ review.author_name }</span>
-                                    <span>  { review.rating }</span>
-                                    <p>{ review.relative_time_description }</p>
-                                    <p>{ review.text }</p>
-                                </div>
-                            ))}
-                        </div>
+                <div className="side-result-container right-side">
+                    <div className="reviews-container">
+                        {/* <SortReviews /> */}
+                        { place.reviews.map( (review, index) => (
+                            <div className="review" key={index} >
+                                <span>{ review.author_name }</span>
+                                <span>  { review.rating }</span>
+                                <p>{ review.relative_time_description }</p>
+                                <p>{ review.text }</p>
+                            </div>
+                        ))}
                     </div>
                 </div>
-                
             </div>
         )
     }

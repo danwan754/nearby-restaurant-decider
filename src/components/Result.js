@@ -82,7 +82,7 @@ class Result extends React.Component {
         // var placeIDs = this.state.placeIDs.slice();
         // console.log(placeIDs);
         // console.log(this.state.placeIDs);
-        const placeIDs = this.state.placeIDs.filter(place => place != this.state.currentPlaceID);
+        const placeIDs = this.state.placeIDs.filter(place => place !== this.state.currentPlaceID);
         // placeIDs.splice(index, 1);
         // console.log(placeIDs);
         this.setState({ 
@@ -141,9 +141,17 @@ class Result extends React.Component {
                 <InputBar
                     onSubmit={this.handleSubmit} />
                 { this.state.isLoading ? "Loading ..." : (
-                    <ResultDetail 
-                        place={this.state.place}
-                        onSubmit={this.handleSkip} />
+                    <React.Fragment>
+                        <ResultDetail 
+                            place={this.state.place}
+                            onSubmit={this.handleSkip} />
+                        {/* <input 
+                            type='button'
+                            value='Skip' 
+                            id='skip-button'
+                            onClick={ this.handleSkip() }>
+                        </input> */}
+                    </React.Fragment>
                 )}
                 {/* { this.state.isLoading ? "Loading ..." : (
                     <div>
