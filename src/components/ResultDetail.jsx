@@ -1,6 +1,26 @@
 import React from 'react';
+import Star from '../assets/star.png';
 
 class ResultDetail extends React.Component {
+
+    constructor() {
+        super();
+        this.renderStars = this.renderStars.bind(this);
+    }
+
+    renderStars(length) {
+        let stars = [];
+        for (var i = 0; i < length; i++) {
+            stars.push(
+                <img key={i}
+                    className='star'
+                    src={Star} 
+                    alt={'no image'}>
+                </img>
+            );
+        }
+        return stars;
+    }
 
     render() {
         if (Object.keys(this.props.place).length === 0) {
@@ -43,9 +63,15 @@ class ResultDetail extends React.Component {
                         {/* <SortReviews /> */}
                         { place.reviews.map( (review, index) => (
                             <div className="review" key={index} >
-                                <span>{ review.author_name }</span>
-                                <span>  { review.rating }</span>
-                                <p>{ review.relative_time_description }</p>
+                                <p>{ review.author_name }</p>
+                                <div className="rating-time-container">
+                                    <span className="star-container">
+                                        { this.renderStars(review.rating) }
+                                    </span>
+                                    <span className="time-description">
+                                        { review.relative_time_description }
+                                    </span>
+                                </div>
                                 <p>{ review.text }</p>
                             </div>
                         ))}
