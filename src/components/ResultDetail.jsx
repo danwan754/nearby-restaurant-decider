@@ -1,4 +1,5 @@
 import React from 'react';
+import SortReview from './SortReview';
 import Star from '../assets/star.png';
 
 class ResultDetail extends React.Component {
@@ -60,7 +61,7 @@ class ResultDetail extends React.Component {
                 </div>
                 <div className="side-result-container right-side">
                     <div className="reviews-container">
-                        {/* <SortReviews /> */}
+                        <SortReview />
                         { place.reviews.map( (review, index) => (
                             <div className="review" key={index} >
                                 <p>{ review.author_name }</p>
