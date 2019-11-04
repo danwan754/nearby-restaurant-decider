@@ -7,6 +7,8 @@
 }
 
 .result-detail-container {
+    display: table-row; /* attempting to match children heights; remove if fail */
+
     margin: auto;
     border-radius: 7px;
 
@@ -14,14 +16,16 @@
 }
 
 .side-result-container {
-    display: inline-block;
+    /* display: inline-block; */
+    display: table-cell; /* attempting to match children heights; remove if fail */
     text-align: left;
     overflow: auto;
     vertical-align: top;
     border-radius: 7px;
     margin: 1%;
+    height: 100%;
     
-    /* border: 1px solid black; */
+    border: 1px solid black;
 }
 
 .left-side {
@@ -124,5 +128,15 @@
     display: flex;
     justify-content: space-between;
     margin-bottom: 20px;
+}
+
+.gallery {
+    margin: 10px;
+    margin-top: 20px;
+}
+
+.gallery img {
+    width: 25%;
+    height: 80px;
 }
 

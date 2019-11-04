@@ -1,5 +1,6 @@
 import React from 'react';
 import SortReview from './SortReview';
+import Gallery from './Gallery';
 import Star from '../assets/star.png';
 
 class ResultDetail extends React.Component {
@@ -52,11 +53,7 @@ class ResultDetail extends React.Component {
                                 </p>
                             ))}
                         </div>
-                        <div className="gallery">
-                            {/* { this.props.result.photos.map(img => ( */}
-                                {/* <img src={ img }></img> */}
-                            {/* ))} */}
-                        </div>
+                        <Gallery photoIDs={this.props.photoIDs} />
                     </div>
                 </div>
                 <div className="side-result-container right-side">
