@@ -4,7 +4,6 @@ import React from 'react';
 import TestRenderer from 'react-test-renderer';
 
 import Gallery from '../components/Gallery';
-import { jsxElement, jsxEmptyExpression } from '@babel/types';
 
 jest.mock('../requests');
 
@@ -52,23 +51,37 @@ describe('Gallery Component.', () => {
             let indices = [0, 1, 2];
             await galleryInstance.getPhotos(photoIDs, indices);
             let currentIndices = galleryInstance.state.currentIndices;
+            let photos = galleryInstance.state.photos;
             expect(currentIndices).toStrictEqual(indices);
+            expect(photos).toStrictEqual(["/src/assets/canada.png","/src/assets/canada.png","/src/assets/canada.png"]);
         });
 
-        it('Should update state.currentIndices to [3]', () => {
+        it('Should update state.currentIndices when all photos are present in state.photos', async () => {
             let photoIDs = ['a', 'b', 'c', 'd'];
             galleryInstance.state.photos = ['aa', 'bb', 'cc', 'dd'];
             let indices = [3];
-            galleryInstance.getPhotos(photoIDs, indices);
+            await galleryInstance.getPhotos(photoIDs, indices);
             let currentIndices = galleryInstance.state.currentIndices;
             expect(currentIndices).toStrictEqual(indices);
         });
 
-        it('Should not update state.currentIndices', () => {
+        it('Should update state.currentIndices and state.photos when photo is not in state.photos', async () => {
+            let photoIDs = ['a', 'b', 'c', 'd'];
+            galleryInstance.state.photos = ['aa', 'bb', 'cc'];
+            let indices = [3];
+            await galleryInstance.getPhotos(photoIDs, indices);
+            let currentIndices = galleryInstance.state.currentIndices;
+            let photos = galleryInstance.state.photos;
+            expect(currentIndices).toStrictEqual(indices);
+            expect(photos).toStrictEqual(['aa','bb','cc','/src/assets/canada.png']);
+        });
+
+
+        it('Should not update state.currentIndices', async () => {
             let photoIDs = ['a', 'b', 'c', 'd'];
             galleryInstance.state.currentIndices = [1,2,3];
             let indices = [4];
-            galleryInstance.getPhotos(photoIDs, indices);
+            await galleryInstance.getPhotos(photoIDs, indices);
             let currentIndices = galleryInstance.state.currentIndices;
             expect(currentIndices).toStrictEqual([1,2,3]);
         });

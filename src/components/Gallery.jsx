@@ -50,7 +50,7 @@ class Gallery extends React.Component {
         let photos = this.state.photos;
 
         // if photos exists for indices, then update this.state.currentIndices; no need to fetch new photos
-        if (photos.length - 1 >= indices.length - 1) {
+        if (photos.length - 1 >= indices[indices.length - 1]) {
             this.setState({
                 currentIndices: indices
             });
@@ -58,7 +58,7 @@ class Gallery extends React.Component {
             return;
         }
         // if no more photos to fetch, then do not update and return
-        else if (photos.length - 1 >= photoIDs.length -1) {
+        else if (indices[indices.length-1] > photoIDs.length - 1) {
             console.log("Attempt to get more photos than listed in photoIDs; this should not happen");
             return;
         }
@@ -67,15 +67,10 @@ class Gallery extends React.Component {
         let promises = [];
         for (var i = 0; i < indices.length; i++) {
             promises.push(fetchPhoto(photoIDs[indices[i]]));
-            console.log("append");
         }
         await Promise.all(promises)
         .then(results => {
-            // console.log("promises");
-            // console.log("currentIndices: " + currentIndices);
-            // console.log("photoIDs: " + photoIDs);
             let photos = this.state.photos;
-            // console.log("photos: " + photos);
             photos = photos.concat(results);
             this.setState({
                 photoIDs: photoIDs, 
