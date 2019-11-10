@@ -8,14 +8,13 @@ class Gallery extends React.Component {
     state = {
         photoIDs: [],
         photos: [],
-        currentIndices: [] // should contain up to 3 indices of state.photos
+        currentIndices: [],
+        GALLERY_SIZE: 3
     }
 
     constructor() {
         super();
-        this.GALLERY_SIZE = 3;
         this.getPhotos = this.getPhotos.bind(this);
-        // this.fetchPhoto = this.fetchPhoto.bind(this);
         this.handleNext = this.handleNext.bind(this);
     }
 
@@ -24,28 +23,14 @@ class Gallery extends React.Component {
         // console.log(photoIDs);
         this.setState({ photoIDs: photoIDs });
 
-        // get the first 3 images
+        // get the initial photos
         if (photoIDs.length > 0) {
             this.getPhotos(photoIDs, []);
         }
     }
 
 
-    // fetchPhoto(photoID) {
-    //     return (
-    //         fetch('/api/photo?id=' + photoID)
-    //         .then(response => {
-    //             return response.blob();
-    //         })
-    //         .then(image => {
-    //             let image_url = URL.createObjectURL(image);
-    //             // console.log("photo: " + image_url);
-    //             return image_url;
-    //         })
-    //     )
-    // }
-
-    // get up to GALLERY_SIZE new photos
+    // get up to this.state.GALLERY_SIZE new photos
     async getPhotos(photoIDs, indices) {
         let photos = this.state.photos;
 
@@ -66,10 +51,12 @@ class Gallery extends React.Component {
         // fetch photos for the provided indices in this.state.photoIDs
         let promises = [];
         for (var i = 0; i < indices.length; i++) {
+            console.log("fetch");
             promises.push(fetchPhoto(photoIDs[indices[i]]));
         }
         await Promise.all(promises)
         .then(results => {
+            console.log(results);
             let photos = this.state.photos;
             photos = photos.concat(results);
             this.setState({
@@ -78,105 +65,25 @@ class Gallery extends React.Component {
                 currentIndices: indices
             });
         });
-
-        // // start index for the next photos
-        // let startIndex = photoIDs.length - (photoIDs.length - photos.length);
-        // let endIndex = startIndex + (this.GALLERY_SIZE - 1);
-
-        // // console.log(startIndex);
-        // // console.log(endIndex);
-        // if (startIndex > photoIDs.length - 1) {
-        //     return;
-        // }
-        // if (photoIDs.length - startIndex - 1 > (this.GALLERY_SIZE - 1)) {
-        //     endIndex = startIndex + (this.GALLERY_SIZE - 1);
-        // }
-        // // set endIndex to last index if not enough remaining indices to statisfy GALLERY_SIZE
-        // else {
-        //     endIndex = photoIDs.length - 1;
-        // }
-        // // console.log("startIndex: " + startIndex);
-        // // console.log("endIndex: " + endIndex);
-        
-        // function fetchPhoto(photoID) {
-        //     return (
-        //         fetch('/api/photo?id=' + photoID)
-        //         .then(response => {
-        //             return response.blob();
-        //         })
-        //         .then(image => {
-        //             let image_url = URL.createObjectURL(image);
-        //             // console.log("photo: " + image_url);
-
-        //             return image_url;
-        //         })
-        //     )
-        // }
-
-        // let promises = [];
-        // let currentIndices = [];
-        // for (var i = startIndex; i < endIndex + 1; i++) {
-        //     promises.push(fetchPhoto(photoIDs[i]));
-        //     currentIndices.push(i);
-        // }
-
-        // Promise.all(promises)
-        // .then(results => {
-        //     // console.log("currentIndices: " + currentIndices);
-        //     // console.log("photoIDs: " + photoIDs);
-        //     let photos = this.state.photos;
-        //     // console.log("photos: " + photos);
-        //     photos = photos.concat(results);
-        //     this.setState({
-        //         photoIDs: photoIDs, 
-        //         photos: photos,
-        //         currentIndices: currentIndices
-        //     });
-        // });
     }
 
-    handleNext() {
+    async handleNext() {
 
         let indices = this.state.currentIndices;
-        let index = indices[indices.length - 1];
+        let index = indices.length > 0 ? indices[indices.length - 1] : -1;
+        // console.log("index: " + index);
         let newIndices = [];
+        if (index >= this.state.photoIDs.length - 1) {
+            return;
+        }
 
-        for (var i = 0; i < this.state.GALLERY_SIZE; i++) {
-            if (index > this.state.photoIDs.length - 1) {
+        for (var i = 1; i <= this.state.GALLERY_SIZE; i++) {
+            if (index + i > this.state.photoIDs.length - 1) {
                 break;
             }
             newIndices.push(index + i);
         }
-
-        this.getPhotos(this.state.photoIDs, newIndices);
-
-        // let currentIndices = this.state.currentIndices;
-        // let currentPhotoLength = currentIndices.length;
-        // let lastPhotoIndex = this.state.photos.length - 1;
-        // if (currentPhotoLength == 0) {
-        //     console.log("no current photos");
-        //     return;
-        // }
-        // if (!currentIndices[currentPhotoLength - 1] == lastPhotoIndex) {
-        //     // current photos are not the last photos, so get next photos
-        //     let index = currentIndices[currentPhotoLength - 1] + 1;
-        //     for (var i=0; i<this.GALLERY_SIZE; i++) {
-        //         if (index > this.state.photos.length -1) {
-        //             break;
-        //         }
-        //         currentIndices[i] = this.state.photos[index];
-        //         index++;
-        //     }
-        // }
-
-        // if (currentIndices[currentPhotoLengthm - 1] == lastPhotoIndex) {
-        //     // disable the 'next' button since there is no more photos to show
-        // }
-
-        // this.setState({
-        //     currentIndices: currentIndices
-        // });
-
+        await this.getPhotos(this.state.photoIDs, newIndices);
     }
 
     render() {
