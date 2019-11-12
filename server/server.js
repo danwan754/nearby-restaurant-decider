@@ -157,7 +157,7 @@ app.get('/api/place-details', async function(req, res) {
 
 app.get('/api/photo', async function(req, res) {
     const photo_id = req.query.id;
-    console.log(photo_id);
+    // console.log(photo_id);
     // const url = BASE_PHOTO_URL + "?maxwidth="
     res.sendFile(__dirname + '/canada.png');
 

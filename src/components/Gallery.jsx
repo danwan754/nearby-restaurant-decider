@@ -16,16 +16,18 @@ class Gallery extends React.Component {
         super();
         this.getPhotos = this.getPhotos.bind(this);
         this.handleNext = this.handleNext.bind(this);
+        this.handlePrev = this.handlePrev.bind(this);
     }
 
     componentDidMount() {
         let photoIDs = this.props.photoIDs || [];
-        // console.log(photoIDs);
+        // console.log("componentDidMount photoIDs: " + photoIDs);
         this.setState({ photoIDs: photoIDs });
 
         // get the initial photos
         if (photoIDs.length > 0) {
-            this.getPhotos(photoIDs, []);
+            // console.log("photoIDs length");
+            this.getPhotos(photoIDs, [0,1,2]);
         }
     }
 
@@ -51,12 +53,10 @@ class Gallery extends React.Component {
         // fetch photos for the provided indices in this.state.photoIDs
         let promises = [];
         for (var i = 0; i < indices.length; i++) {
-            console.log("fetch");
             promises.push(fetchPhoto(photoIDs[indices[i]]));
         }
         await Promise.all(promises)
         .then(results => {
-            console.log(results);
             let photos = this.state.photos;
             photos = photos.concat(results);
             this.setState({
@@ -83,6 +83,41 @@ class Gallery extends React.Component {
             }
             newIndices.push(index + i);
         }
+
+        // disable 'next' button if no more photos after these indices
+        if (newIndices[newIndices.length - 1] >= this.state.photoIDs.length - 1) {
+            // disable next button
+        }
+
+        await this.getPhotos(this.state.photoIDs, newIndices);
+    }
+
+    async handlePrev() {
+        let indices =  this.state.currentIndices;
+
+        let startIndex, endIndex;
+        if (indices.length == 0 || indices[0] < 1) {
+            // console.log("handlePrev; indices.length == 0 || indices[0] < 1; return");
+            return;
+        }
+        else {
+            endIndex = indices[0] - 1;
+            startIndex = endIndex - this.state.GALLERY_SIZE + 1;
+        }
+
+        let newIndices = [];
+        for (var i = startIndex; i <= endIndex; i++) {
+            if (i < 0) {
+                continue;
+            }
+            newIndices.push(i);
+        }
+
+        // disable 'prev' button if no more photos before these indices
+        if (newIndices[0] == 0) {
+            // disable prev button
+        }
+
         await this.getPhotos(this.state.photoIDs, newIndices);
     }
 
@@ -92,15 +127,14 @@ class Gallery extends React.Component {
         // console.log("photos: " + this.state.photos);
 
         return (
-            // <div className="gallery">
-            //     { this.state.photos.map( (img, index) => (
-            //         <img key={index} src={ img } alt="no image"></img>
-            //     ))}
-            // </div>
-            <div className="gallery">
-                { this.state.currentIndices.map( (i, index) => (
-                    <img key={index} src={ this.state.photos[i] } alt="no image"></img>
-                ))}
+            <div className="gallery-container">
+                <input onClick={ this.handlePrev }className="prev-next-buttons inline" type="button" value="<"></input>
+                <div className="gallery inline">
+                    { this.state.currentIndices.map( (i, index) => (
+                        <img key={index} src={ this.state.photos[i] } alt="no image"></img>
+                    ))}
+                </div>
+                <input onClick={ this.handleNext } className="prev-next-buttons inline" type="button" value=">"></input>
             </div>
         )
     }

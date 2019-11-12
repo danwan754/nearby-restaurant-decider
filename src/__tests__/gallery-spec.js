@@ -88,7 +88,7 @@ describe('Gallery Component.', () => {
 
     });
 
-    describe('handleNext()', () => {
+    xdescribe('handleNext()', () => {
         let tree;
         let galleryInstance;
 
@@ -126,6 +126,46 @@ describe('Gallery Component.', () => {
             await galleryInstance.handleNext();
             let currentIndices = galleryInstance.state.currentIndices;
             expect(currentIndices).toStrictEqual([2,3]);
+        });
+
+    });
+
+    describe('handlePrev()', () => {
+        let tree;
+        let galleryInstance;
+
+        beforeEach( () => {
+            tree = TestRenderer.create(<Gallery/>);
+            galleryInstance = tree.getInstance();
+        });
+
+        afterEach( () => {
+            tree = null;
+        });
+
+        it('should update state.currentIndices to contain previous 3 indices.', async () => {
+            let photoIDs = ['a', 'b', 'c', 'd'];
+            galleryInstance.state.photoIDs = photoIDs;
+            galleryInstance.state.currentIndices = [3];
+            await galleryInstance.handlePrev();
+            let currentIndices = galleryInstance.state.currentIndices;
+            expect(currentIndices).toStrictEqual([0,1,2]);
+        });
+
+        it('should not update state.currentIndices when state.currentIndices is empty.', async () => {
+            galleryInstance.state.currentIndices = [];
+            await galleryInstance.handlePrev();
+            let currentIndices = galleryInstance.state.currentIndices;
+            expect(currentIndices).toStrictEqual([]);
+        });
+
+        it('should not update state.currentIndices when state.currentIndices contains index of first photo.', async () => {
+            let photoIDs = ['a', 'b', 'c', 'd'];
+            galleryInstance.state.photoIDs = photoIDs;
+            galleryInstance.state.currentIndices = [0,1,2];
+            await galleryInstance.handlePrev();
+            let currentIndices = galleryInstance.state.currentIndices;
+            expect(currentIndices).toStrictEqual([0,1,2]);
         });
 
     });

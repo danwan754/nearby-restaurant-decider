@@ -10,3 +10,17 @@
     margin: 2px;
     border: 1px black solid;
 }
+
+.prev-next-buttons {
+    border-radius: 8px;
+    vertical-align: top;
+    width: auto;
+    height: 80px;
+    font-size: 1em;
+    /* margin: 3px; */
+    text-align: center;
+}
+
+.inline {
+    display: inline;
+}
