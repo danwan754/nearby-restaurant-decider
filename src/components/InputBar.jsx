@@ -19,7 +19,7 @@ class InputBar extends React.Component {
         ],
         query_data: {
             establishment: 'Restaurant',
-            radius: 2000,
+            radius: 1000,
             postal_code: '',
             country_code: 'ca'
         }
