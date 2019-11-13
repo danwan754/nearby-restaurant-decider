@@ -3,43 +3,58 @@
     width: 90%;
     margin: 0 auto;
     text-align: center;
+
     /* border: 1px solid blue; */
 }
 
 .result-detail-container {
-    display: table-row; /* attempting to match children heights; remove if fail */
-
+    /* display: table-row; attempting to match children heights; remove if fail */
+    /* display: flex; */
     margin: auto;
     border-radius: 7px;
 
     border: 1px solid red;
 }
 
+.result-detail-container-table {
+    display: table-row;
+    margin: auto;
+}
+
 .side-result-container {
     /* display: inline-block; */
-    display: table-cell; /* attempting to match children heights; remove if fail */
-    text-align: left;
-    overflow: auto;
+    display: table-cell; /*attempting to match children heights; remove if fail*/
+    /* overflow: auto; */
     vertical-align: top;
     border-radius: 7px;
-    margin: 1%;
-    height: 100%;
-    
-    border: 1px solid black;
+    /* margin: 20px; */
+    padding: 15px;
+    height: 80vh;
+
+    /* border: 1px solid black; */
 }
 
 .left-side {
+    /* max-width: 50%; */
     width: 50%;
 }
 
 .right-side {
+    /* max-width: 44%; */
     width: 44%;
 }
 
 .contact-hours-photo-container {
     padding: 2%;
     border-radius: 7px;
+    /* height: 100%; */
+    margin: 0;
+
     border: solid black 1px;
+}
+
+.contact-hours-container {
+    display: flex;
 }
 
 #restaurant-main-img {
@@ -47,6 +62,7 @@
     height: 100px;
     vertical-align: top;
     border-radius: 7px;
+
     /* border: solid 1px black; */
 }
 
@@ -60,21 +76,23 @@
 }
 
 #restaurant-hours {
-    display: inline-block;
+    /* display: inline-block; */
     vertical-align: top;
     text-align: left;
     margin-left: 5%;
-    width: 45%;
+    /* width: 45%; */
 
     /* border: solid black 1px; */
 
 }
 
 #restaurant-contact {
-    display: inline-block;
+    /* display: inline-block; */
     vertical-align: top;
     text-align: left;
-    width: 45%;
+    margin: 0;
+    padding: 0;
+    /* width: 45%; */
 
     /* border: solid black 1px; */
 
@@ -84,27 +102,14 @@
 #restaurant-hours p {
     /* border: solid black 1px; */
     /* margin: 2%; */
+    width: auto;
+    /* border: dashed 1px black; */
 }
 
 #restaurant-contact p {
     /* margin: 2%; */
 }
 
-.reviews-container {
-    text-align: left;
-    border: blue solid 1px;
-    padding: 10px;
-    border-radius: 7px;
-    overflow: auto;
-    height: 80vh;
-}
-
-.review {
-    margin: 10px;
-    padding: 10px;
-    border-radius: 7px;
-    border: black 1px solid;
-}
 
 .rating-time-container {
     display: flex;
@@ -115,31 +120,5 @@
     margin-right: 25px;
 }
 
-.star-container {
-}
 
-.star {
-    width: 10px;
-    height: 10px;
-    margin: 2px;
-}
-
-.sort-reviews {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 20px;
-}
-
-.gallery {
-    margin: 10px;
-    margin-top: 20px;
-    text-align: center;
-}
-
-.gallery img {
-    width: 25%;
-    height: 80px;
-    margin: 2px;
-    border: 1px black solid;
-}
 

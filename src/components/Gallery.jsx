@@ -9,7 +9,7 @@ class Gallery extends React.Component {
         photoIDs: [],
         photos: [],
         currentIndices: [],
-        GALLERY_SIZE: 3
+        GALLERY_SIZE: 4
     }
 
     constructor() {
@@ -21,13 +21,18 @@ class Gallery extends React.Component {
 
     componentDidMount() {
         let photoIDs = this.props.photoIDs || [];
+        // let photoIDs = [];
         // console.log("componentDidMount photoIDs: " + photoIDs);
         this.setState({ photoIDs: photoIDs });
 
         // get the initial photos
         if (photoIDs.length > 0) {
+            let indices = [];
+            for (var i = 0; i < this.state.GALLERY_SIZE; i++) {
+                indices.push(i);
+            }
             // console.log("photoIDs length");
-            this.getPhotos(photoIDs, [0,1,2]);
+            this.getPhotos(photoIDs, indices);
         }
     }
 
@@ -122,19 +127,22 @@ class Gallery extends React.Component {
     }
 
     render() {
-        // console.log("currentIndices: " + this.state.currentIndices);
-        // console.log("photoIDs: " + this.state.photoIDs);
-        // console.log("photos: " + this.state.photos);
-
+        let indices = this.state.currentIndices;
         return (
             <div className="gallery-container">
-                <input onClick={ this.handlePrev }className="prev-next-buttons inline" type="button" value="<"></input>
-                <div className="gallery inline">
-                    { this.state.currentIndices.map( (i, index) => (
-                        <img key={index} src={ this.state.photos[i] } alt="no image"></img>
-                    ))}
-                </div>
-                <input onClick={ this.handleNext } className="prev-next-buttons inline" type="button" value=">"></input>
+                { indices.length > 0 ?
+                    <React.Fragment>
+                        <input onClick={ this.handlePrev }className="prev-next-buttons inline" type="button" value="<"></input>
+                        <div className="gallery inline">
+                            { indices.map( (i, index) => (
+                                <img key={index} src={ this.state.photos[i] } alt="no image"></img>
+                            ))}
+                        </div>
+                        <input onClick={ this.handleNext } className="prev-next-buttons inline" type="button" value=">"></input>
+                    </React.Fragment>
+                    :
+                    <React.Fragment>Sorry, no photos available.</React.Fragment>
+                }
             </div>
         )
     }
