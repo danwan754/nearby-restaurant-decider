@@ -17,6 +17,10 @@ class ResultDetail extends React.Component {
         }
 
         const place = this.props.place;
+        const addressComponents = place.formatted_address.split(', ');
+        const streetAddress = addressComponents[0];
+        const remainderAddress = addressComponents.slice(1,3).join(', ');
+
         return (
             <div className="result-detail-container">
                 <div className="result-detail-container-table">
@@ -26,13 +30,18 @@ class ResultDetail extends React.Component {
                         <div className="contact-hours-photo-container">
                             <div className="contact-hours-container">
                                 <div id="restaurant-contact">
-                                    <p>{ place.formatted_address }</p>
+                                    <p>
+                                        { streetAddress }
+                                        <br />
+                                        { remainderAddress }
+                                    </p>
+                                    {/* <p className="address">{ remainderAddress }</p> */}
                                     <p>{ place.formatted_phone_number }</p>
                                     <p>{ place.website }</p>
                                 </div>
                                 <div id="restaurant-hours">{ 
                                     place.opening_hours.weekday_text.map( (day, index) => (
-                                        <p className="day-hours" key={index}>
+                                        <p key={index}>
                                             { day }
                                         </p>
                                     ))}

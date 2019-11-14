@@ -1,6 +1,6 @@
 
 .result-container {
-    width: 90%;
+    width: 95%;
     margin: 0 auto;
     text-align: center;
 
@@ -8,9 +8,9 @@
 }
 
 .result-detail-container {
-    /* display: table-row; attempting to match children heights; remove if fail */
     /* display: flex; */
     margin: auto;
+    margin-bottom: 30px;
     border-radius: 7px;
 
     border: 1px solid red;
@@ -23,11 +23,9 @@
 
 .side-result-container {
     /* display: inline-block; */
-    display: table-cell; /*attempting to match children heights; remove if fail*/
-    /* overflow: auto; */
+    display: table-cell;
     vertical-align: top;
     border-radius: 7px;
-    /* margin: 20px; */
     padding: 15px;
     height: 80vh;
 
@@ -35,19 +33,16 @@
 }
 
 .left-side {
-    /* max-width: 50%; */
     width: 50%;
 }
 
 .right-side {
-    /* max-width: 44%; */
     width: 44%;
 }
 
 .contact-hours-photo-container {
-    padding: 2%;
     border-radius: 7px;
-    /* height: 100%; */
+    padding: 20px;
     margin: 0;
 
     border: solid black 1px;
@@ -80,7 +75,6 @@
     vertical-align: top;
     text-align: left;
     margin-left: 5%;
-    /* width: 45%; */
 
     /* border: solid black 1px; */
 
@@ -90,24 +84,21 @@
     /* display: inline-block; */
     vertical-align: top;
     text-align: left;
-    margin: 0;
-    padding: 0;
-    /* width: 45%; */
+    line-height: 1.5em;
 
     /* border: solid black 1px; */
 
 }
 
-
 #restaurant-hours p {
     /* border: solid black 1px; */
-    /* margin: 2%; */
-    width: auto;
-    /* border: dashed 1px black; */
+    /* width: auto; */
 }
 
 #restaurant-contact p {
     /* margin: 2%; */
+    /* margin-top: 0; */
+    margin: 20px;
 }
 
 
