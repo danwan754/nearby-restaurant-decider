@@ -11,8 +11,9 @@ class App extends React.Component {
     return (
         <BrowserRouter>
           <NavBar />
-            <Route exact path="/" component={Home}/>
-            <Route path="/results" component={Result}/>
+          <Route exact path="/" component={Home}/>
+          <Route path="/results" component={Result}/>
+          {/* <Route path="/about" component={About} /> */}
         </ BrowserRouter>
     );
   }
