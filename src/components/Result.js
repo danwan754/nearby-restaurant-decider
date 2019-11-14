@@ -2,6 +2,7 @@ import React from 'react';
 
 import InputBar from './InputBar';
 import ResultDetail from './ResultDetail';
+import { getPlaceDetails, getNearByEstablishments } from '../requests';
 
 import '../css/Result.css';
 
@@ -19,53 +20,42 @@ class Result extends React.Component {
 
     constructor() {
         super();
-        this.getNearbyEstablishments = this.getNearbyEstablishments.bind(this);
+        this.getEstablishments = this.getEstablishments.bind(this);
         this.selectRandomPlace = this.selectRandomPlace.bind(this);
         this.deletePlace = this.deletePlace.bind(this);
-        this.getPlaceDetails = this.getPlaceDetails.bind(this);
-        // this.getPlacePhotos = this.getPlacePhotos.bind(this);
+        this.getPhotoIDs = this.getPhotoIDs.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleSkip = this.handleSkip.bind(this);
     }
 
     componentDidMount() {
         var queryObject = this.props.location ? this.props.location.state : false;
-        // console.log(this.props.location.state);
-        // this.getPlacePhotos();
+
         // query data given by home page
         if (!queryObject){
             // console.log("not from homepage");
             return;
         }
-        // query_data = props.location.state.query_data;
-
-        this.getNearbyEstablishments(queryObject);
+        this.getEstablishments(queryObject);
     }
 
-    getNearbyEstablishments(queryObject) {
+    async getEstablishments(queryObject) {
         var queryString = new URLSearchParams(queryObject).toString();
-        console.log(queryString);
-        var url = '/api/nearby-establishments?' + queryString;
+        // console.log(queryString);
         this.setState({ isLoading: true });
-        fetch(url)
-        .then(response => { 
-            if (response.ok) {
-                return response.json();
-            }
-            else {
-                throw new Error("Error: status code " + response.status);
-            }
-        })
-        .then(result => {
-            console.log("result: " + result);
-            this.setState({ placeIDs: result });
-            const index = this.selectRandomPlace(result);
-            this.getPlaceDetails(result[index]);
-        })
-        .catch(error => {
-            this.setState({ isLoading: false });
-            console.log("error caught: " + error);
+        const result = await getNearByEstablishments(queryString);
+        const index = this.selectRandomPlace(result);
+        const placeDetails = await getPlaceDetails(result[index]);
+        const photoIDs = this.getPhotoIDs(placeDetails);
+
+        this.setState({ 
+            placeIDs: result,
+            currentPlaceID: result[index],
+            place: placeDetails,
+            photoIDs: photoIDs,
+            isLoading: false
         });
+
     }
 
     // randomly select a place from list of places
@@ -74,86 +64,47 @@ class Result extends React.Component {
         if (length === 0) {
             return null;
         }
-        const index = Math.floor((Math.random() * length) + 1);
-        this.setState({ currentPlaceID: placeIDs[index] });
+        const index = Math.floor((Math.random() * length));
+        // this.setState({ currentPlaceID: placeIDs[index] });
         return index;
     }
 
+    // extract photo IDs from place details object
+    getPhotoIDs(placeDetails) {
+        let photoIDs = [];
+        if (placeDetails.length > 0) {
+            for (var i = 0; i < placeDetails.result.photos.length; i++) {
+                photoIDs.push(placeDetails.result.photos[i].photo_reference);
+            }
+        }
+        return photoIDs;
+    }
+
     // delete a place from list of places
-    // deletePlace(index) {
     deletePlace() {
-        // var placeIDs = this.state.placeIDs.slice();
-        // console.log(placeIDs);
-        // console.log(this.state.placeIDs);
         const placeIDs = this.state.placeIDs.filter(place => place !== this.state.currentPlaceID);
-        // placeIDs.splice(index, 1);
-        // console.log(placeIDs);
-        this.setState({ 
-            placeIDs: placeIDs,
-            place: ''
-        });
         return placeIDs;
     }
 
-    // fetch place details
-    getPlaceDetails(placeID) {
-        var url = "/api/place-details" + "?place_id=" + placeID;
-        fetch(url)
-        .then(response => {
-            if (response.ok) {
-                return response.json();
-            }
-            else {
-                throw new Error("Error: status code " + response.status);
-            }
-        })
-        .then(result => {
-            // extract photo IDs
-            let photoIDs = [];
-            for (var i = 0; i < result.result.photos.length; i++) {
-                photoIDs.push(result.result.photos[i].photo_reference);
-            }
-            this.setState({ 
-                place: result,
-                photoIDs: photoIDs,
-                isLoading: false
-             });
-        })
-        .catch(error => {
-            console.log(error);
-            this.setState({ 
-                place: {},
-                isLoading: false
-            });
-        });
-    }
-
     handleSubmit(query_object) {
-        this.getNearbyEstablishments(query_object);
-        // this.setState({
-        //     query_data: query_object
-        // });
+        this.getEstablishments(query_object);
     }
 
     // delete the current place object from results and show the new place
-    handleSkip() {
+    async handleSkip() {
         const placeIDs = this.deletePlace();
-        const index = this.selectRandomPlace();
-        this.getPlaceDetails(placeIDs[index]);
+        const index = this.selectRandomPlace(placeIDs);
+        const placeResult = await getPlaceDetails(placeIDs[index]);
+        const photoIDs = this.getPhotoIDs(placeResult);
+
+        this.setState({ 
+            placeIDs: placeIDs,
+            currentPlaceID: placeIDs[index],
+            place: placeResult,
+            photoIDs: photoIDs,
+            isLoading: false
+        });
     }
-
-    // // fetch place photos
-    // getPlacePhotos() {
-    //     fetch('/api/photo')
-    //     .then(response => {
-    //         return response.blob();
-    //     })
-    //     .then(image => {
-    //         let image_url = URL.createObjectURL(image);
-    //         this.setState({ photos: [image_url] });
-    //     });
-    // }
-
 
     render() {
         return(
@@ -168,12 +119,13 @@ class Result extends React.Component {
                             // photos={this.state.photos}
                             photoIDs={this.state.photoIDs}
                             onSubmit={this.handleSkip} />
-                        {/* <input 
+                        <input 
                             type='button'
                             value='Skip' 
                             id='skip-button'
-                            onClick={ this.handleSkip() }>
-                        </input> */}
+                            // onClick={ this.handleSkip() }
+                            >
+                        </input>
                     </React.Fragment>
                 )}
             </div>

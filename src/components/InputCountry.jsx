@@ -10,7 +10,7 @@ class InputCountry extends React.Component {
                 <img 
                     className="country-img"
                     src={ country }
-                    alt="No image">
+                    alt="N/A">
                 </img>
             </div>
         )

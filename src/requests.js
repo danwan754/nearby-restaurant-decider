@@ -15,7 +15,7 @@ export function fetchPhoto(photoID) {
 }
 
 export function getPlaceDetails(placeID) {
-    let url = "/api/place-details" + "?place_id=" + placeID;
+    let url = "/api/place-details?place_id=" + placeID;
     return (
         fetch(url)
         .then(response => {

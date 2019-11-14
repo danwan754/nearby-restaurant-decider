@@ -18,7 +18,7 @@ class Review extends React.Component {
                 <img key={i}
                     className='star'
                     src={Star} 
-                    alt={'no image'}>
+                    alt={'Star'}>
                 </img>
             );
         }

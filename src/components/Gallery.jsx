@@ -1,5 +1,5 @@
 import React from 'react';
-import fetchPhoto from '../requests';
+import { fetchPhoto } from '../requests';
 
 import '../css/Gallery.css';
 
@@ -101,7 +101,7 @@ class Gallery extends React.Component {
         let indices =  this.state.currentIndices;
 
         let startIndex, endIndex;
-        if (indices.length == 0 || indices[0] < 1) {
+        if (indices.length === 0 || indices[0] < 1) {
             // console.log("handlePrev; indices.length == 0 || indices[0] < 1; return");
             return;
         }
@@ -119,7 +119,7 @@ class Gallery extends React.Component {
         }
 
         // disable 'prev' button if no more photos before these indices
-        if (newIndices[0] == 0) {
+        if (newIndices[0] === 0) {
             // disable prev button
         }
 
@@ -135,7 +135,7 @@ class Gallery extends React.Component {
                         <input onClick={ this.handlePrev }className="prev-next-buttons inline" type="button" value="<"></input>
                         <div className="gallery inline">
                             { indices.map( (i, index) => (
-                                <img key={index} src={ this.state.photos[i] } alt="no image"></img>
+                                <img key={index} src={ this.state.photos[i] } alt="N/A"></img>
                             ))}
                         </div>
                         <input onClick={ this.handleNext } className="prev-next-buttons inline" type="button" value=">"></input>
