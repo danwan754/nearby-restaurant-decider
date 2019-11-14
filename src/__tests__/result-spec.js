@@ -3,11 +3,13 @@ import TestRenderer from 'react-test-renderer';
 
 import Result from '../components/Result';
 
+jest.mock('../requests');
 
-xdescribe('Result Component.', () => {
+
+describe('Result Component.', () => {
     var resultObj = new Result();
 
-    describe('Inital states are empty.', () => {
+    xdescribe('Inital states are empty.', () => {
     
         it('placeIDs array should have length of zero.', () => {
             expect(resultObj.state.placeIDs.length).toBe(0);
@@ -23,7 +25,7 @@ xdescribe('Result Component.', () => {
         });
     });
 
-    describe('selectRandomPlace(placeIDs)', () => {
+    xdescribe('selectRandomPlace(placeIDs)', () => {
         let placeIDs = ['a', 'b', 'c'];
         let tree;
         let resultInstance;
@@ -49,20 +51,20 @@ xdescribe('Result Component.', () => {
             expect(index >= 0 && index <= 2).toBe(true);
         });
 
-        it('Should update state.currentPlaceID', () => {
+        xit('Should update state.currentPlaceID', () => {
             const index = resultInstance.selectRandomPlace(placeIDs);
             const placeID = resultInstance.state.currentPlaceID;
             const isUpdated = placeIDs.includes(placeID);
             expect(isUpdated).toBe(true);
         });
 
-        it('renders correctly', () => {
+        xit('renders correctly', () => {
             tree = tree.toJSON();
             expect(tree).toMatchSnapshot();
         });
     });
 
-    describe('deletePlace()', () => {
+    xdescribe('deletePlace()', () => {
         let placeIDs = ['a', 'b', 'c'];
         let place = 'b';
         let tree;
@@ -78,7 +80,6 @@ xdescribe('Result Component.', () => {
         });
 
         it('Should return empty array.', () => {
-            const emptyPlaceIDs = [];
             const newPlaceIDs = resultInstance.deletePlace();
             const length = newPlaceIDs.length;
             expect(length).toBe(0);
@@ -93,7 +94,7 @@ xdescribe('Result Component.', () => {
             expect(isSame).toBe(true);
         });
 
-        it('Returned value should match state.placeIDs.', () => {
+        xit('Returned value should match state.placeIDs.', () => {
             resultInstance.state.placeIDs = ['a', 'b', 'c'];
             resultInstance.state.currentPlaceID = 'b';
             resultInstance.deletePlace();
@@ -101,5 +102,58 @@ xdescribe('Result Component.', () => {
             const isSame = JSON.stringify(expected) == JSON.stringify(resultInstance.state.placeIDs) ? true : false;
             expect(isSame).toBe(true);
         })
-    }); 
+    });
+
+    xdescribe('handleSkip()', () => {
+        let tree;
+        let resultInstance;
+
+        beforeEach( () => {
+            tree = TestRenderer.create(<Result/>);
+            resultInstance = tree.getInstance();
+        });
+
+        afterEach( () => {
+            tree = null;
+        });
+
+        it('Should remove previous place and update current place.', async () => {
+            let placeIDs = ['a', 'b'];
+            resultInstance.state.placeIDs = placeIDs;
+            resultInstance.state.currentPlaceID = 'b';
+            await resultInstance.handleSkip();
+
+            let newPlaceIDs = resultInstance.state.placeIDs;
+            let newCurrentPlaceID = resultInstance.state.currentPlaceID;
+            expect(newPlaceIDs).toStrictEqual(['a']);
+            expect(newCurrentPlaceID).toBe('a');
+        });
+    });
+
+    describe('getEstablishments()', () => {
+        let tree;
+        let resultInstance;
+
+        beforeEach( () => {
+            tree = TestRenderer.create(<Result/>);
+            resultInstance = tree.getInstance();
+        });
+
+        afterEach( () => {
+            tree = null;
+        });
+
+        it('Should update state.placeIDs.', async () => {
+            let queryObject = {
+                establishment: 'Restaurant',
+                radius: 1000,
+                postal_code: 'v2v2v2',
+                country_code: 'ca'
+            }
+            await resultInstance.getEstablishments(queryObject);
+            let newPlaceIDs = resultInstance.state.placeIDs;
+            expect(newPlaceIDs).toStrictEqual(["place_id1", "place_id2", "place_id3", "place_id4"]);
+        });
+    });
+
 })

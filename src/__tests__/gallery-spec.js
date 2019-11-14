@@ -8,10 +8,10 @@ import Gallery from '../components/Gallery';
 jest.mock('../requests');
 
 
-describe('Gallery Component.', () => {
+xdescribe('Gallery Component.', () => {
     var galleryObj = new Gallery();
 
-    xdescribe('Inital states are empty.', () => {
+    describe('Inital states are empty.', () => {
 
         it('photoIDs array should have length of zero.', () => {
             expect(galleryObj.state.photoIDs.length).toBe(0);
@@ -25,7 +25,7 @@ describe('Gallery Component.', () => {
         });
     });
 
-    xdescribe('getPhotos(photoIDs, indices)', () => {
+    describe('getPhotos(photoIDs, indices)', () => {
         let tree;
         let galleryInstance;
 
@@ -88,7 +88,7 @@ describe('Gallery Component.', () => {
 
     });
 
-    xdescribe('handleNext()', () => {
+    describe('handleNext()', () => {
         let tree;
         let galleryInstance;
 
