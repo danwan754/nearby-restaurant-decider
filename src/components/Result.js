@@ -119,13 +119,16 @@ class Result extends React.Component {
                             // photos={this.state.photos}
                             photoIDs={this.state.photoIDs}
                             onSubmit={this.handleSkip} />
-                        <input 
-                            type='button'
-                            value='Skip' 
-                            id='skip-button'
-                            // onClick={ this.handleSkip() }
-                            >
-                        </input>
+                        { this.state.placeIDs.length > 0 ?
+                            <input 
+                                type='button'
+                                value='Skip' 
+                                id='skip-button'
+                                onClick={ this.handleSkip }
+                                >
+                            </input>
+                            : ''
+                        }
                     </React.Fragment>
                 )}
             </div>

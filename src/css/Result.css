@@ -12,8 +12,8 @@
     margin: auto;
     margin-bottom: 30px;
     border-radius: 7px;
-
-    border: 1px solid red;
+    background-color: #fff3e6;
+    /* border: 1px solid red; */
 }
 
 .result-detail-container-table {
@@ -44,8 +44,8 @@
     border-radius: 7px;
     padding: 20px;
     margin: 0;
-
-    border: solid black 1px;
+    background-color: #ffe6cc;
+    /* border: solid black 1px; */
 }
 
 .contact-hours-container {
@@ -67,7 +67,8 @@
     text-align: left;
     padding: 10px;
     border-radius: 7px;
-    border: 1px black solid;
+    background-color: #ffdab3;
+    /* border: 1px black solid; */
 }
 
 #restaurant-hours {
