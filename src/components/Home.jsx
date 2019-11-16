@@ -40,10 +40,6 @@ class Home extends React.Component {
             <div className="home-background">
                 <div className="home-content">
                     <Title />
-                    {/* <InputContainer
-                        onSubmit={this.handleSubmit}
-                        submitClassName="center-submit" /> */}
-
                     <InputBar 
                         onSubmit={this.handleSubmit}
                         submitClassName="center-submit" />

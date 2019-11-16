@@ -1,5 +1,6 @@
 .home-background {
-    height: 100%;
+    /* fit whole image without scrolling by subtracting navbar height */
+    height: calc(100vh - 40px);
     width: 100%;
     background:      
         linear-gradient(
@@ -14,15 +15,13 @@
     margin: 0;
 }
 
-/* .home-content {
-    border: 3px red solid;
-} */
 
 h1, h3 {
     color: white;
     margin-top: 0;
     padding: 20px;
     text-align: center;
+    text-shadow: 3px 3px 10px #000;;
 }
 
 h1 {
@@ -31,7 +30,7 @@ h1 {
 }
 
 h3 {
-    font-size: 1.5em;
+    font-size: 1.3em;
 }
 
 hr {

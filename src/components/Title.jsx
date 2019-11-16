@@ -1,13 +1,12 @@
 import React from 'react';
 
-
 class Title extends React.Component {
 
     render() {
         return (
             <div>
                 <h1>
-                    Nearby Restaurant Decision Maker
+                    Nearby Restaurant Decider
                 </h1>
                 <hr></hr>
                 <h3>
