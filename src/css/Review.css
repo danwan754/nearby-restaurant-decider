@@ -15,7 +15,7 @@
     margin: 10px;
     padding: 10px;
     border-radius: 7px;
-    background-color: #ffe6cc;
+    background-color: #fff3e6;
     /* border: black 1px solid; */
 }
 
@@ -32,4 +32,25 @@
     width: 10px;
     height: 10px;
     margin: 2px;
+}
+
+
+
+
+
+.reviews-container::-webkit-scrollbar {
+    width: 20px;
+}
+
+.reviews-container::-webkit-scrollbar-track {
+    background: #ffdab3; 
+}
+
+.reviews-container::-webkit-scrollbar-thumb {
+    border-radius: 8px;
+    background: #ff9966;
+}
+
+.reviews-container::-webkit-scrollbar-thumb:hover {
+    background: #ff884d; 
 }

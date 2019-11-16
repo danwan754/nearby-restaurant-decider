@@ -49,7 +49,7 @@ class ResultDetail extends React.Component {
                                         { remainderAddress }
                                     </p>
                                     <p>{ place.formatted_phone_number }</p>
-                                    <p>{ place.website }</p>
+                                    <a href={ place.website } target="_blank" rel="noopener noreferrer">{ place.website }</a>
                                 </div>
                                 <div id="restaurant-hours">{ 
                                     place.opening_hours.weekday_text.map( (day, index) => (

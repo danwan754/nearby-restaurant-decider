@@ -1,3 +1,6 @@
+body {
+    background-color: #fff2e6;
+}
 
 .result-container {
     width: 95%;
@@ -12,7 +15,8 @@
     margin: auto;
     margin-bottom: 30px;
     border-radius: 7px;
-    background-color: #fff3e6;
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: #ffce99;
     /* border: 1px solid red; */
 }
 
@@ -42,14 +46,18 @@
 
 .contact-hours-photo-container {
     border-radius: 7px;
-    padding: 20px;
     margin: 0;
-    background-color: #ffe6cc;
+    padding-bottom: 5px;
+    background-color: #fff3e6;
+
     /* border: solid black 1px; */
 }
 
 .contact-hours-container {
     display: flex;
+    padding: 20px;
+    /* border: solid black 1px; */
+
 }
 
 #restaurant-main-img {
@@ -62,12 +70,13 @@
 }
 
 #restaurant-name {
-    font-size: 1.5em;
-    margin-top: 2%;
+    font-size: 1.6em;
+    font-weight: bold;
+    margin-top: 20px;
+    padding: 15px;
     text-align: left;
-    padding: 10px;
     border-radius: 7px;
-    background-color: #ffdab3;
+    background-color: #fff3e6;
     /* border: 1px black solid; */
 }
 
@@ -75,7 +84,8 @@
     /* display: inline-block; */
     vertical-align: top;
     text-align: left;
-    margin-left: 5%;
+    /* margin-left: 5%; */
+    /* padding: 20px; */
 
     /* border: solid black 1px; */
 
@@ -86,7 +96,7 @@
     vertical-align: top;
     text-align: left;
     line-height: 1.5em;
-
+    width: 55%;
     /* border: solid black 1px; */
 
 }
@@ -99,7 +109,7 @@
 #restaurant-contact p {
     /* margin: 2%; */
     /* margin-top: 0; */
-    margin: 20px;
+    /* margin: 20px; */
 }
 
 
