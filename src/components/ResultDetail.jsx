@@ -8,17 +8,6 @@ import { fetchPhoto } from '../requests';
 
 class ResultDetail extends React.Component {
 
-    state = {
-        photoURL: ''
-    }
-
-    async componentDidMount() {
-        if (this.props.photoIDs.length > 0) {
-            const photoURL = await fetchPhoto(this.props.photoIDs[0]);
-            this.setState({ photoURL: photoURL });
-        }
-    }
-
     render() {
         if (Object.keys(this.props.place).length === 0) {
             console.log("No results");
@@ -38,7 +27,7 @@ class ResultDetail extends React.Component {
             <div className="result-detail-container">
                 <div className="result-detail-container-table">
                     <div className="side-result-container left-side">
-                        <img id="restaurant-main-img" src={ this.state.photoURL } alt="N/A" />
+                        <img id="restaurant-main-img" src={ this.props.mainPhotoURL } alt="N/A" />
                         <p id="restaurant-name">{ place.name }</p>
                         <div className="contact-hours-photo-container">
                             <div className="contact-hours-container">

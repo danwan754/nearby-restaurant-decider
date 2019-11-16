@@ -4,9 +4,10 @@ import { fetchPhoto } from '../requests';
 import '../css/Gallery.css';
 
 class Gallery extends React.Component {
+    _isMounted = false;
 
     state = {
-        photoIDs: [],
+        // photoIDs: [],
         photos: [],
         currentIndices: [],
         GALLERY_SIZE: 4
@@ -20,10 +21,11 @@ class Gallery extends React.Component {
     }
 
     componentDidMount() {
+        this._isMounted = true;
         let photoIDs = this.props.photoIDs || [];
         // let photoIDs = [];
         // console.log("componentDidMount photoIDs: " + photoIDs);
-        this.setState({ photoIDs: photoIDs });
+        // this.setState({ photoIDs: photoIDs });
 
         // get the initial photos
         if (photoIDs.length > 0) {
@@ -34,6 +36,10 @@ class Gallery extends React.Component {
             // console.log("photoIDs length");
             this.getPhotos(photoIDs, indices);
         }
+    }
+
+    componentWillUnmount() {
+        this._isMounted = false;
     }
 
 
@@ -62,13 +68,15 @@ class Gallery extends React.Component {
         }
         await Promise.all(promises)
         .then(results => {
-            let photos = this.state.photos;
-            photos = photos.concat(results);
-            this.setState({
-                photoIDs: photoIDs, 
-                photos: photos,
-                currentIndices: indices
-            });
+            if (this._isMounted) {
+                let photos = this.state.photos;
+                photos = photos.concat(results);
+                this.setState({
+                    photoIDs: photoIDs, 
+                    photos: photos,
+                    currentIndices: indices
+                });
+            }
         });
     }
 
