@@ -18,7 +18,8 @@ class InputPostalCode extends React.Component {
                     id="inputPostalCode" 
                     type="text"
                     onChange={this.handleChange} 
-                    maxLength="6" 
+                    maxLength="6"
+                    placeholder="v2v3h3"
                     value={this.props.value} />
             </div>
         )

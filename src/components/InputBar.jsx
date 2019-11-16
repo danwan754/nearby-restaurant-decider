@@ -32,6 +32,7 @@ class InputBar extends React.Component {
         this.handlePostalCodeInput = this.handlePostalCodeInput.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.isPostalCodeFormat = this.isPostalCodeFormat.bind(this);
+        this.buildSubmitButton = this.buildSubmitButton.bind(this);
     }
 
     componentDidMount() {
@@ -84,36 +85,57 @@ class InputBar extends React.Component {
          return false;
     }
 
+    buildSubmitButton(className) {
+        return (                
+            <input 
+                className={ className }
+                type="submit"
+                value="Find" 
+                onClick={ this.handleSubmit } />
+        )
+    }
+
     render() {
         const input = this.state.query_data;
+        const className = this.props.submitClassName; // className provided by home redirect
+        const thColor = className ? 'th-white' : 'th-black';
         return(
             <div className="input-bar" >
                 <div className="sub-input-bar">
-                    <div className="inline">
-                        <DropDownMenu
-                            establishments={this.state.establishments} 
-                            onSelect={this.handleSelect} />
-                    </div>
-                    <div className="inline" >
-                        <InputRadius
-                            value={input.radius} 
-                            onInput={this.handleRadiusInput} />
-                    </div>
-                    <div className="inline" >
-                        <InputPostalCode
-                            value={input.postal_code}
-                            onInput={this.handlePostalCodeInput} />
-                    </div>
-                    <div className="">
-                        <InputCountry
-                            value={ input.country_code } />
-                    </div>
+                    <table>
+                        <tbody>
+                        <tr>
+                            <th className={ thColor }>Type</th>
+                            <th className={ thColor }>Radius (m)</th>
+                            <th className={ thColor }>Postal Code</th>
+                            {/* <th className={ thColor }>Country</th> */}
+                        </tr>
+                        <tr>
+                            <td>
+                                <DropDownMenu
+                                    establishments={this.state.establishments} 
+                                    onSelect={this.handleSelect} />
+                            </td>
+                            <td>
+                                <InputRadius
+                                    value={input.radius} 
+                                    onInput={this.handleRadiusInput} />
+                            </td>
+                            <td>
+                                <InputPostalCode
+                                    value={input.postal_code}
+                                    onInput={this.handlePostalCodeInput} />
+                            </td>
+                            <td>
+                                <InputCountry
+                                    value={ input.country_code } />
+                            </td>
+                            { className ? null : <td>{ this.buildSubmitButton('input-submit') }</td> }
+                        </tr>
+                        </tbody>
+                    </table>
                 </div>
-                <input 
-                    className={this.props.submitClassName ? this.props.submitClassName : "input-submit inline" }
-                    type="submit"
-                    value="Find" 
-                    onClick={this.handleSubmit} />
+                { className ? this.buildSubmitButton(className) : null }
             </div>
         );
     }
