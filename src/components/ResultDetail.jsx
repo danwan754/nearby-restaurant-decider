@@ -3,8 +3,6 @@ import React from 'react';
 import Gallery from './Gallery';
 import Review from './Review';
 
-import { fetchPhoto } from '../requests';
-
 
 class ResultDetail extends React.Component {
 
@@ -22,6 +20,7 @@ class ResultDetail extends React.Component {
         const addressComponents = place.formatted_address.split(', ');
         const streetAddress = addressComponents[0];
         const remainderAddress = addressComponents.slice(1,3).join(', ');
+        const openHours = place.opening_hours;
 
         return (
             <div className="result-detail-container">
@@ -41,11 +40,13 @@ class ResultDetail extends React.Component {
                                     <a href={ place.website } target="_blank" rel="noopener noreferrer">{ place.website }</a>
                                 </div>
                                 <div id="restaurant-hours">{ 
-                                    place.opening_hours.weekday_text.map( (day, index) => (
-                                        <p key={index}>
-                                            { day }
-                                        </p>
-                                    ))}
+                                    openHours && openHours.weekday_text ?
+                                        openHours.weekday_text.map( (day, index) => (
+                                            <p key={index}>
+                                                { day }
+                                            </p>
+                                        )) : ''
+                                }
                                 </div>
                             </div>
                             <Gallery photoIDs={this.props.photoIDs} />

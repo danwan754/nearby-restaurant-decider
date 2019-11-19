@@ -11,6 +11,12 @@ export function fetchPhoto(photoID) {
             // console.log("photo: " + image_url);
             return image_url;
         })
+        .catch(error => {
+            console.log("error in photo fetching:");
+            throw new Error(error);
+            // console.log(error);
+            // return {error: error};
+        })
     )
 }
 
@@ -18,20 +24,23 @@ export function getPlaceDetails(placeID) {
     let url = "/api/place-details?place_id=" + placeID;
     return (
         fetch(url)
-        .then(response => {
-            if (response.ok) {
-                return response.json();
-            }
-            else {
-                throw new Error("Error: status code " + response.status);
-            }
+        .then(response => { 
+            return response.json();
         })
-        .then(result => {
-            return result;
+        .then(data => {
+            // console.log(data);
+            if (data.error) {
+                throw new Error(data.error + "; " + data.error_message);
+            }
+            return data;
         })
         .catch(error => {
+            console.log("error in getPlaceDetails");
             console.log(error);
-            return {};
+            // throw new Error(error);
+            throw error;
+            // console.log(error);
+            // return {};
         })
     )
 }
@@ -41,20 +50,22 @@ export function getNearByEstablishments(queryString) {
     return (
         fetch(url)
         .then(response => { 
-            if (response.ok) {
-                return response.json();
-            }
-            else {
-                throw new Error("Error: status code " + response.status);
-            }
+            return response.json();
         })
-        .then(result => {
-            console.log("result: " + result);
-            return result;
+        .then(data => {
+            console.log(data);
+            if (data.error) {
+                throw new Error(data.error + "; " + data.error_message);
+            }
+            return data;
         })
         .catch(error => {
-            console.log("error caught: " + error);
-            return {};
+            console.log("error in getNearbyEstablishments:");
+            console.log(error);
+            // throw new Error(error);
+            throw error;
+            // console.log(error);
+            // return {};
         })
     )
 }

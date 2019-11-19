@@ -1,10 +1,11 @@
 const verify = require("./verify-parameters.js");
+const { GoogleRequestException } = require('./error.js');
 
 const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
 const axios = require('axios');
-const {URLSearchParams} = require('url')
+const {URLSearchParams} = require('url');
 
 const app = express();
 app.use(bodyParser.json());
@@ -24,39 +25,35 @@ const API_KEY = process.env.GOOGLE_SECRET_KEY || "test_key";
 const BASE_PLACE_URL = "https://maps.googleapis.com/maps/api/place";
 const BASE_GEOCODE_URL = "https://maps.googleapis.com/maps/api/geocode/json";
 const BASE_PHOTO_URL = "https://maps.googleapis.com/maps/api/place/photo";
+const PLACE_DETAILS_URL = BASE_PLACE_URL + "/details/json?place_id=";
+const PLACE_DETAILS_PARAMS = "&fields=name,rating,user_ratings_total,price_level,review,formatted_phone_number,opening_hours,website,photo,formatted_address&key=" + API_KEY;
+
 
 // Return coordinates [lat, long]
 getCoordinates = (countryCode, postalCode, res) => {
 
-    // url like https://maps.googleapis.com/maps/api/geocode/json?components=country:ca|postal_code:v5h3j4&key="api_key"
+    // url like https://maps.googleapis.com/maps/api/geocode/json?components=country:ca|postal_code:v1v1v1&key="api_key"
     const url = BASE_GEOCODE_URL + "?components=country:" + countryCode + "|postal_code:" + postalCode + "&key=" + API_KEY;
-    console.log(url);
+    // console.log(url);
     return (
         axios.get(url)
         .then(response => {
-            // console.log(response.data);
-            return response.data;
-        })
-        .then(data => {
-            // console.log("status: " + data.status);
+            let data = response.data;
             if(data.status === 'OK') {
-                console.log("data.status is OK");
                 const location = data.results[0].geometry.location;
                 const lat = location.lat;
                 const lng = location.lng;
                 return [lat, lng];
-                // res.send({"coordinates": [lat, lng]});
             }
             else {
-                console.log("data.status is NOTOK");
-                // res.status(400).send({ 
-                //     "error": data.status,
-                //     "error_message": data.error_message 
-                // });
-                sendErrorResponse(data.status, data.error_message, res);
+                throw new GoogleRequestException(data.status);
             }
         })
-    );
+        .catch(error => {
+            console.log('Error in geocoding postal code.');
+            sendErrorResponse(error.status, error.message, res);
+        })
+    )
 }
 
 // Return a query object
@@ -72,12 +69,12 @@ buildQueryObject = (establishment, radius, latitude, longitude) => {
 }
 
 // Return query object after validating
-validateQuery = (queryObject, res) => {
+validateQuery = (queryObject) => {
     verifyObject = new verify.verifyClass();
-    const countryCode = verifyObject.verifyCountryCode(queryObject.country_code, res);
-    const postalCode = verifyObject.verifyPostalCode(queryObject.postal_code, res);
-    const establishment = verifyObject.verifyEstablishment(queryObject.establishment, res);
-    const radius = verifyObject.verifyRadius(queryObject.radius, res);
+    const countryCode = verifyObject.verifyCountryCode(queryObject.country_code);
+    const postalCode = verifyObject.verifyPostalCode(queryObject.postal_code);
+    const establishment = verifyObject.verifyEstablishment(queryObject.establishment);
+    const radius = verifyObject.verifyRadius(queryObject.radius);
     return ( 
         {
             countryCode: countryCode,
@@ -90,45 +87,46 @@ validateQuery = (queryObject, res) => {
 
 // return error message for fail Google API call
 sendErrorResponse = (status, error_message, response) => {
-    response.status(400).send({ 
+    if (status === 500) {
+        error_message = 'Internal server error. Please try again.';
+    }
+    response.status(500).send({ 
         "error": status,
         "error_message": error_message 
     });
 }
 
-
 // get nearby establishments
 app.get('/api/nearby-establishments', async function(req, res) {
-    queryObject = validateQuery(req.query, res);
 
+    try {
+        queryObject = validateQuery(req.query);
+    } catch(e) {
+        sendErrorResponse(e.status, e.message, res);
+        return;
+    }
     const coordinates = await getCoordinates(queryObject.countryCode, queryObject.postalCode, res);
-
-    queryObject = buildQueryObject(queryObject.establishment, queryObject.radius, coordinates[0], coordinates[1]);
-    // queryObject = buildQueryObject(queryObject.establishment, queryObject.radius, -11, -111);
-    
+    queryObject = buildQueryObject(queryObject.establishment, queryObject.radius, coordinates[0], coordinates[1]);    
     const queryString = new URLSearchParams(queryObject).toString();
-
     var url = BASE_PLACE_URL + "/nearbysearch/json?" + queryString;
-
-    // console.log("nearby-restaurant url: " + url);
 
     axios.get(url)
     .then(response => {
-        return response.data;
-    })
-    .then(data => {
+        let data = response.data;
         // console.log(data);
 
-        if (data.status == 'OK') {
+        if (data.status === 'OK') {
             // get the place_id for every place
             place_ids = data.results.map(place => place.place_id)
-            // console.log(place_ids);
-
             res.send(place_ids);
         }
         else {
-            sendErrorResponse(data.status, data.error_message, res);
+            throw new GoogleRequestException(data.status);
         }
+    })
+    .catch(error => {
+        console.log("error in nearby-establishments");
+        sendErrorResponse(error.status, error.message, res);
     });
 });
 
@@ -136,21 +134,23 @@ app.get('/api/nearby-establishments', async function(req, res) {
 // get establishment details
 app.get('/api/place-details', async function(req, res) {
     const place_id = req.query.place_id;
-    var url = BASE_PLACE_URL + "/details/json?place_id=" + place_id + "&fields=name,rating,user_ratings_total,price_level,review,formatted_phone_number,opening_hours,website,photo,formatted_address&key=" + API_KEY;
-    console.log(url);
+    // var url = BASE_PLACE_URL + "/details/json?place_id=" + place_id + "&fields=name,rating,user_ratings_total,price_level,review,formatted_phone_number,opening_hours,website,photo,formatted_address&key=" + API_KEY;
+    let url = PLACE_DETAILS_URL + place_id + PLACE_DETAILS_PARAMS;
+    // console.log(url);
 
     axios.get(url)
     .then(response => {
-        return response.data;
-    })
-    .then(data => {
+        let data = response.data;
         console.log(data.result);
         if (data.status == 'OK') {
             res.send(data.result);
         }
         else {
-            sendErrorResponse(data.status, data.error_message, res);
+            throw new GoogleRequestException(data.status);
         }
+    })
+    .catch(error => {
+        sendErrorResponse(error.status, error.message, res);
     });
 });
 

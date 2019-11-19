@@ -17,9 +17,9 @@ class InputRadius extends React.Component {
                 <input 
                     id="input-radius" 
                     type='number' 
-                    min='500' 
-                    max='3000'
-                    step='500'
+                    min='200' 
+                    max='2500'
+                    step='100'
                     value={this.props.value} 
                     onChange={this.handleChange} />
             </div>

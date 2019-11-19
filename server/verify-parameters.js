@@ -1,12 +1,13 @@
-    
+const { InvalidUserParameterException } = require('./error.js');
+
  class VerifyParameters {
 
 
     constructor() {
         this.establishments = ['restaurant', 'cafe', 'bakery', 'bar'];
         this.countryCodes = ['ca'];
-        this.minRadius = 500;
-        this.maxRadius = 5000;
+        this.minRadius = 200;
+        this.maxRadius = 2500;
 
         this.verifyEstablishment = this.verifyEstablishment.bind(this);
         this.verifyPostalCode = this.verifyPostalCode.bind(this);
@@ -20,48 +21,48 @@
 
 
     // Return establishment if parameter is acceptable
-    verifyEstablishment(establishment, res) {
+    verifyEstablishment(establishment) {
         const establishmentLowerCase = establishment.toLowerCase();
         if (this.isEstablishment(establishmentLowerCase)) {
             return establishmentLowerCase;
         }
         else {
             const message = "Invalid parameter for establishment; " + "\'" + establishment + "\'" + " is unacceptable.";
-            res.status(400).send(message);
+            throw new InvalidUserParameterException('INVALID ESTABLISHMENT TYPE', message);
         }
     }
 
     // Return postal_code if it is in correct postal code format (Canada)
-    verifyPostalCode(postalCode, res) {
+    verifyPostalCode(postalCode) {
         if (this.isPostalCode(postalCode)) {
             return postalCode;
         }
         else {
             const message = "Invalid parameter for postal code; " + "\'" + postalCode + "\'" + " is in unacceptable format.";
-            res.status(400).send(message);
+            throw new InvalidUserParameterException('INVALID POSTAL CODE', message);
         }
     }
 
     // Return radius if it is in range 1000 - 5000
-    verifyRadius(radius, res) {
+    verifyRadius(radius) {
         if (this.isRadius(radius)) {
             return radius;
         }
         else {
             const message = "Invalid parameter for radius; " + "\'" + radius + "\'" + " is out of acceptable range from " + this.minRadius + " to " + this.maxRadius + ".";
-            res.status(400).send(message);
+            throw new InvalidUserParameterException('INVALID RADIUS', message);
         }
     }
 
     // Return countryCode if it exists. (Canada only for now)
-    verifyCountryCode(countryCode, res) {
+    verifyCountryCode(countryCode) {
         const countryCodeLowerCase = countryCode.toLowerCase();
         if (this.isCountryCode(countryCodeLowerCase)) {
             return countryCode;
         }
         else {
             const message = "Invalid parameter for country code; " + "\'" + countryCode + "\'" + " is not acceptable. Only Canada (ca) is supported at the moment.";
-            res.status(400).send(message);
+            throw new InvalidUserParameterException('INVALID COUNTRY CODE', message);
         }
     }
 

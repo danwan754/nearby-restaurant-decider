@@ -10,7 +10,7 @@ class Gallery extends React.Component {
         // photoIDs: [],
         photos: [],
         currentIndices: [],
-        GALLERY_SIZE: 4
+        GALLERY_SIZE: 3
     }
 
     constructor() {
@@ -72,7 +72,7 @@ class Gallery extends React.Component {
                 let photos = this.state.photos;
                 photos = photos.concat(results);
                 this.setState({
-                    photoIDs: photoIDs, 
+                    // photoIDs: photoIDs, 
                     photos: photos,
                     currentIndices: indices
                 });
@@ -86,23 +86,27 @@ class Gallery extends React.Component {
         let index = indices.length > 0 ? indices[indices.length - 1] : -1;
         // console.log("index: " + index);
         let newIndices = [];
-        if (index >= this.state.photoIDs.length - 1) {
+        // if (index >= this.state.photoIDs.length - 1) {
+        if (index >= this.props.photoIDs.length - 1) {
             return;
         }
 
         for (var i = 1; i <= this.state.GALLERY_SIZE; i++) {
-            if (index + i > this.state.photoIDs.length - 1) {
+            // if (index + i > this.state.photoIDs.length - 1) {
+            if (index + i > this.props.photoIDs.length - 1) {
                 break;
             }
             newIndices.push(index + i);
         }
 
         // disable 'next' button if no more photos after these indices
-        if (newIndices[newIndices.length - 1] >= this.state.photoIDs.length - 1) {
+        // if (newIndices[newIndices.length - 1] >= this.state.photoIDs.length - 1) {
+        if (newIndices[newIndices.length - 1] >= this.props.photoIDs.length - 1) {
             // disable next button
         }
 
-        await this.getPhotos(this.state.photoIDs, newIndices);
+        // await this.getPhotos(this.state.photoIDs, newIndices);
+        await this.getPhotos(this.props.photoIDs, newIndices);
     }
 
     async handlePrev() {
@@ -131,7 +135,8 @@ class Gallery extends React.Component {
             // disable prev button
         }
 
-        await this.getPhotos(this.state.photoIDs, newIndices);
+        // await this.getPhotos(this.state.photoIDs, newIndices);
+        await this.getPhotos(this.props.photoIDs, newIndices);
     }
 
     render() {
