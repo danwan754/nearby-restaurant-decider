@@ -21,6 +21,8 @@ class ResultDetail extends React.Component {
         const streetAddress = addressComponents[0];
         const remainderAddress = addressComponents.slice(1,3).join(', ');
         const openHours = place.opening_hours;
+        const encodedValue = encodeURIComponent(place.formatted_address);
+        const embeddedMapURL = 'https://maps.google.com/maps?output=embed&width=80%&height=200&hl=en&ie=UTF8&t=m&z=16&iwloc=J&q=' + encodedValue;
 
         return (
             <div className="result-detail-container">
@@ -49,6 +51,11 @@ class ResultDetail extends React.Component {
                                 }
                                 </div>
                             </div>
+                            <iframe 
+                                title='GoogleEmbeddedMap'
+                                src={ embeddedMapURL }
+                                width='90%' height='200px'>
+                            </iframe>
                             <Gallery photoIDs={this.props.photoIDs} />
                         </div>
                     </div>
