@@ -14,12 +14,33 @@
     text-align: center;
 }
 
-.gallery img {
+.gallery-img-container {
+    display: inline-block;
+    position: relative;
+    overflow: hidden;
     width: 25%;
     height: 80px;
     margin: 2px;
-    border: 1px black solid;
+    /* background-color: black; */
 }
+
+.gallery img {
+    display: inline-block;
+    position: absolute;
+    top: -9999px;
+    bottom: -9999px;
+    left: -9999px;
+    right: -9999px;
+    margin: auto;
+    width: 100%;
+}
+
+/* .gallery img {
+    width: 25%;
+    max-height: 200px;
+    margin: 2px;
+    border: 1px black solid;
+} */
 
 .prev-next-buttons {
     border-radius: 8px;

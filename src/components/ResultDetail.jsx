@@ -28,7 +28,9 @@ class ResultDetail extends React.Component {
             <div className="result-detail-container">
                 <div className="result-detail-container-table">
                     <div className="side-result-container left-side">
-                        <img id="restaurant-main-img" src={ this.props.mainPhotoURL } alt="N/A" />
+                        <div id="main-img-container">
+                            <img id="main-img" src={ this.props.mainPhotoURL } alt="N/A" />
+                        </div>
                         <p id="restaurant-name">{ place.name }</p>
                         <div className="contact-hours-photo-container">
                             <div className="contact-hours-container">

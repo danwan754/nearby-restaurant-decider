@@ -5,6 +5,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
 const axios = require('axios');
+const request = require('request');
 const {URLSearchParams} = require('url');
 
 const app = express();
@@ -98,14 +99,15 @@ sendErrorResponse = (status, error_message, response) => {
 
 // get nearby establishments
 app.get('/api/nearby-establishments', async function(req, res) {
-
+    let queryObject;
+    let coordinates;
     try {
         queryObject = validateQuery(req.query);
+        coordinates = await getCoordinates(queryObject.countryCode, queryObject.postalCode, res);
     } catch(e) {
         sendErrorResponse(e.status, e.message, res);
         return;
     }
-    const coordinates = await getCoordinates(queryObject.countryCode, queryObject.postalCode, res);
     queryObject = buildQueryObject(queryObject.establishment, queryObject.radius, coordinates[0], coordinates[1]);    
     const queryString = new URLSearchParams(queryObject).toString();
     var url = BASE_PLACE_URL + "/nearbysearch/json?" + queryString;
@@ -116,7 +118,7 @@ app.get('/api/nearby-establishments', async function(req, res) {
         // console.log(data);
 
         if (data.status === 'OK') {
-            // get the place_id for every place
+            // get the place_id from every place
             place_ids = data.results.map(place => place.place_id)
             res.send(place_ids);
         }
@@ -134,7 +136,6 @@ app.get('/api/nearby-establishments', async function(req, res) {
 // get establishment details
 app.get('/api/place-details', async function(req, res) {
     const place_id = req.query.place_id;
-    // var url = BASE_PLACE_URL + "/details/json?place_id=" + place_id + "&fields=name,rating,user_ratings_total,price_level,review,formatted_phone_number,opening_hours,website,photo,formatted_address&key=" + API_KEY;
     let url = PLACE_DETAILS_URL + place_id + PLACE_DETAILS_PARAMS;
     // console.log(url);
 
@@ -158,13 +159,17 @@ app.get('/api/place-details', async function(req, res) {
 app.get('/api/photo', async function(req, res) {
     const photo_id = req.query.id;
     // console.log(photo_id);
-    // const url = BASE_PHOTO_URL + "?maxwidth="
-    res.sendFile(__dirname + '/canada.png');
+    const url = BASE_PHOTO_URL + "?maxwidth=300&photoreference=" + photo_id +"&key=" + API_KEY;
+    request.get(url).pipe(res);
 
+    // axios.get(url, {
+    //     responseType: 'stream'
+    // })
+    // .then(response => {
+    //     res.send()
+    // });
+
+    // res.sendFile(__dirname + '/canada.png'); // for testing
 });
-
-
-// "https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photoreference=[...]&key=" + API_KEY
-
 
 app.listen(process.env.PORT || 3001);
