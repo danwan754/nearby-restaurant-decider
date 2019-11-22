@@ -9,7 +9,8 @@ class Gallery extends React.Component {
     state = {
         photos: [],
         currentIndices: [],
-        GALLERY_SIZE: 3
+        GALLERY_SIZE: 3,
+        isLoading: false
     }
 
     constructor() {
@@ -59,9 +60,10 @@ class Gallery extends React.Component {
         // fetch photos for the provided indices in this.state.photoIDs
         let promises = [];
         for (var i = 0; i < indices.length; i++) {
-            console.log("pushed");
             promises.push(fetchPhoto(photoIDs[indices[i]]));
         }
+
+        this.setState({ isLoading: true });
         await Promise.all(promises)
         .then(results => {
             if (this._isMounted) {
@@ -73,6 +75,7 @@ class Gallery extends React.Component {
                 });
             }
         });
+        this.setState({ isLoading: false });
     }
 
     async handleNext() {
@@ -90,11 +93,6 @@ class Gallery extends React.Component {
             }
             newIndices.push(index + i);
         }
-
-        // disable 'next' button if no more photos after these indices
-        if (newIndices[newIndices.length - 1] >= this.props.photoIDs.length - 1) {
-            // disable next button
-        }
         await this.getPhotos(this.props.photoIDs, newIndices);
     }
 
@@ -103,7 +101,6 @@ class Gallery extends React.Component {
 
         let startIndex, endIndex;
         if (indices.length === 0 || indices[0] < 1) {
-            // console.log("handlePrev; indices.length == 0 || indices[0] < 1; return");
             return;
         }
         else {
@@ -118,32 +115,43 @@ class Gallery extends React.Component {
             }
             newIndices.push(i);
         }
-
-        // disable 'prev' button if no more photos before these indices
-        if (newIndices[0] === 0) {
-            // disable prev button
-        }
-
-        // await this.getPhotos(this.state.photoIDs, newIndices);
         await this.getPhotos(this.props.photoIDs, newIndices);
     }
 
     render() {
         let indices = this.state.currentIndices;
+        let photos = this.state.photos;
+        let photoIDs = this.props.photoIDs;
+        let size = this.state.GALLERY_SIZE;
+        let prevClassName = indices[0] > 0 ? "" : "invisible";
+        let nextClassName = indices[indices.length-1] < photoIDs.length-1 ? "" : "invisible";
         return (
             <div className="gallery-container">
                 { indices.length > 0 ?
-                    <React.Fragment>
-                        <input onClick={ this.handlePrev }className="prev-next-buttons inline" type="button" value="<"></input>
-                        <div className="gallery inline">
-                            { indices.map( (i, index) => (
-                                <div className="gallery-img-container" key={index}>
-                                    /<img src={ this.state.photos[i] } alt="N/A"></img>
-                                </div>
-                            ))}
-                        </div>
-                        <input onClick={ this.handleNext } className="prev-next-buttons inline" type="button" value=">"></input>
-                    </React.Fragment>
+                    this.state.isLoading ?
+                        "Loading pictures..."
+                        :
+                        <React.Fragment>
+                            <input 
+                                onClick={ this.handlePrev } 
+                                className={"next-images-button inline " + prevClassName} 
+                                type="button" 
+                                value="<">                            
+                            </input>
+                            <div className="gallery inline">
+                                { Array(size).fill().map( (i, index) => (
+                                    <div className="gallery-img-container" key={index}>
+                                        <img src={ photos[indices[index]] } alt="N/A"></img>
+                                    </div>
+                                ))}
+                            </div>
+                            <input 
+                                onClick={ this.handleNext } 
+                                className={"next-images-button inline " + nextClassName}
+                                type="button" 
+                                value=">">
+                            </input>
+                        </React.Fragment>
                     :
                     <React.Fragment>No photos available.</React.Fragment>
                 }

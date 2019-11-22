@@ -42,7 +42,7 @@
     border: 1px black solid;
 } */
 
-.prev-next-buttons {
+.next-images-button {
     border-radius: 8px;
     vertical-align: top;
     width: auto;
@@ -50,6 +50,10 @@
     font-size: 1em;
     /* margin: 3px; */
     text-align: center;
+}
+
+.invisible {
+    visibility: hidden;
 }
 
 .inline {
