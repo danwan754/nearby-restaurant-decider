@@ -50,6 +50,11 @@
     font-size: 1em;
     /* margin: 3px; */
     text-align: center;
+    background-color: #ffcc99;
+}
+
+.next-images-button:active {
+    background-color: #ffb366;
 }
 
 .invisible {
