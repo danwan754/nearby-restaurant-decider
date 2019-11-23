@@ -13,7 +13,7 @@ body {
 .result-detail-container {
     /* display: flex; */
     margin: auto;
-    margin-bottom: 30px;
+    /* margin-bottom: 30px; */
     border-radius: 7px;
     font-family: Arial, Helvetica, sans-serif;
     background-color: #ffce99;
@@ -135,5 +135,6 @@ body {
     margin-right: 25px;
 }
 
-
-
+#skipButton {
+    margin: 25px;
+}

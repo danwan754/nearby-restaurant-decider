@@ -10,12 +10,13 @@ import '../css/Result.css';
 class Result extends React.Component {
 
     state = {
-        placeIDs: [],
         currentPlaceID: '',
         isLoading: false,
         isEnd: false, // out of results to display?
         mainPhotoURL: '',
         errorMessage: '',
+        // placeIDs: [],
+        placeIDs: [0],
         // photoIDs: [],
         photoIDs: ['id1', 'id2', 'id3', 'id4', 'id5', 'id6', 'id7'],
         // place: {}
@@ -117,9 +118,10 @@ class Result extends React.Component {
             const placeDetails = index > -1 ? await getPlaceDetails(placeIDs[index]) : {};
             const photoIDs = this.getPhotoIDs(placeDetails);
             const mainPhotoURL = photoIDs.length > 0 ? await fetchPhoto(photoIDs[0]) : '';
+            const currentPlaceID = index > -1 ? placeIDs[index] : '';
             this.setState({ 
                 placeIDs: placeIDs,
-                currentPlaceID: placeIDs[index],
+                currentPlaceID: currentPlaceID,
                 place: placeDetails,
                 photoIDs: photoIDs,
                 mainPhotoURL: mainPhotoURL,
@@ -156,9 +158,9 @@ class Result extends React.Component {
                                     onSubmit={this.handleSkip} />
                                 { this.state.placeIDs.length > 0 ?
                                     <input 
+                                        id='skipButton'
                                         type='button'
-                                        value='Skip' 
-                                        id='skip-button'
+                                        value='Skip'
                                         onClick={ this.handleSkip }
                                         >
                                     </input>

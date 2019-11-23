@@ -24,8 +24,14 @@ export function getPlaceDetails(placeID) {
     let url = "/api/place-details?place_id=" + placeID;
     return (
         fetch(url)
-        .then(response => { 
-            return response.json();
+        .then(response => {
+            if (response.ok) {
+                return response.json();
+            }
+            else {
+                console.error(response.status + ": " + response.statusText);
+                throw new Error("Sorry, something went wrong.");
+            }
         })
         .then(data => {
             // console.log(data);
@@ -37,10 +43,7 @@ export function getPlaceDetails(placeID) {
         .catch(error => {
             console.log("error in getPlaceDetails");
             console.log(error);
-            // throw new Error(error);
             throw error;
-            // console.log(error);
-            // return {};
         })
     )
 }
@@ -50,10 +53,15 @@ export function getNearByEstablishments(queryString) {
     return (
         fetch(url)
         .then(response => { 
-            return response.json();
+            if (response.ok) {
+                return response.json();
+            }
+            else {
+                console.error(response.status + ": " + response.statusText);
+                throw new Error("Sorry, something went wrong.");
+            }
         })
         .then(data => {
-            console.log(data);
             if (data.error) {
                 throw new Error(data.error + "; " + data.error_message);
             }
@@ -62,10 +70,7 @@ export function getNearByEstablishments(queryString) {
         .catch(error => {
             console.log("error in getNearbyEstablishments:");
             console.log(error);
-            // throw new Error(error);
             throw error;
-            // console.log(error);
-            // return {};
         })
     )
 }
