@@ -12,7 +12,7 @@ export function fetchPhoto(photoID) {
             return image_url;
         })
         .catch(error => {
-            console.log("error in photo fetching:");
+            // console.log("error in photo fetching:");
             throw new Error(error);
             // console.log(error);
             // return {error: error};
@@ -29,8 +29,8 @@ export function getPlaceDetails(placeID) {
                 return response.json();
             }
             else {
-                console.error(response.status + ": " + response.statusText);
-                throw new Error("Sorry, something went wrong.");
+                // console.error(response.status + ": " + response.statusText);
+                throw new Error("Sorry, something went wrong. Please try again.");
             }
         })
         .then(data => {
@@ -41,8 +41,8 @@ export function getPlaceDetails(placeID) {
             return data;
         })
         .catch(error => {
-            console.log("error in getPlaceDetails");
-            console.log(error);
+            // console.log("error in getPlaceDetails");
+            // console.log(error);
             throw error;
         })
     )
@@ -57,8 +57,8 @@ export function getNearByEstablishments(queryString) {
                 return response.json();
             }
             else {
-                console.error(response.status + ": " + response.statusText);
-                throw new Error("Sorry, something went wrong.");
+                // console.error(response.status + ": " + response.statusText);
+                throw new Error("Sorry, something went wrong. Please try again.");
             }
         })
         .then(data => {
@@ -68,8 +68,8 @@ export function getNearByEstablishments(queryString) {
             return data;
         })
         .catch(error => {
-            console.log("error in getNearbyEstablishments:");
-            console.log(error);
+            // console.log("error in getNearbyEstablishments:");
+            // console.log(error);
             throw error;
         })
     )
