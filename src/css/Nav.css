@@ -11,17 +11,19 @@
 
 .navbar li {
     float: right;
+    margin-top: 10px;
+    padding: 0px 15px 0px 15px;
+}
+.navbar li:first-child {
+    margin-right: 50px;
+}
+.navbar li a:hover:not(.active) {
+    color: #999999;
 }
 
 .navLink {
     display: block;
     color: white;
     text-align: center;
-    padding: 10px 50px;
     text-decoration: none !important;
-}
-
-.navbar li a:hover:not(.active) {
-    /* background-color: #111; */
-    color: #999999;
 }

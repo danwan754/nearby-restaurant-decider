@@ -14,6 +14,9 @@ class NavBar extends React.Component {
                 <li>
                     <Link className='navLink' to='/'>Home</Link>
                 </li>
+                <li>
+                    <Link className='navLink' to="/contact">Contact</Link>
+                </li>
             </ul>
         );
     }

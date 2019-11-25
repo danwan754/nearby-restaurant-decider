@@ -1,0 +1,48 @@
+
+.contact-form-outter-container {
+    margin: 0 auto;
+    margin-top: 100px;
+    text-align: center;
+    width: 50%;
+}
+
+.contact-form-inner-container {
+    display: inline-block;
+    text-align: left;
+
+    /* border: solid 1px black; */
+}
+
+.contact-form-inner-container input {
+    width: 475px;
+    margin-top: 10px;
+}
+
+
+.contact-form-inner-container textarea {
+    width: 500px;
+    height: 200px;
+    margin-top: 10px;
+}
+
+#form-submit {
+    background-color: #00b359;
+    color: white;
+    width: 120px;
+}
+
+.center {
+    text-align: center;
+}
+
+.form-alert-message {
+    margin-bottom: 50px;
+    text-align: center;
+}
+
+.fail-message {
+    color: #ff3333;
+}
+.success-message {
+    color: #29a329;
+}
