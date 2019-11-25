@@ -4,8 +4,8 @@ class EndResult extends React.Component {
 
     render() {
         return (
-            <div>
-                Sorry, no more results. You will starve :(
+            <div className="end-result-container">
+                Sorry, no more results. Don't be so picky.
             </div>
         )
     }
