@@ -6,11 +6,13 @@ const bodyParser = require('body-parser');
 const path = require('path');
 const axios = require('axios');
 const request = require('request');
+var nodemailer = require('nodemailer');
 const {URLSearchParams} = require('url');
 
 const app = express();
-app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+
 
 
 // // send the react app
@@ -32,10 +34,7 @@ const PLACE_DETAILS_PARAMS = "&fields=name,rating,user_ratings_total,price_level
 
 // Return coordinates [lat, long]
 getCoordinates = (countryCode, postalCode, res) => {
-
-    // url like https://maps.googleapis.com/maps/api/geocode/json?components=country:ca|postal_code:v1v1v1&key="api_key"
     const url = BASE_GEOCODE_URL + "?components=country:" + countryCode + "|postal_code:" + postalCode + "&key=" + API_KEY;
-    // console.log(url);
     return (
         axios.get(url)
         .then(response => {
@@ -52,7 +51,7 @@ getCoordinates = (countryCode, postalCode, res) => {
         })
         .catch(error => {
             console.log('Error in geocoding postal code.');
-            sendErrorResponse(error.status, error.message, res);
+            throw error;
         })
     )
 }
@@ -91,7 +90,7 @@ sendErrorResponse = (status, error_message, response) => {
     if (status === 500) {
         error_message = 'Internal server error. Please try again.';
     }
-    response.status(500).send({ 
+    response.send({ 
         "error": status,
         "error_message": error_message 
     });
@@ -115,7 +114,6 @@ app.get('/api/nearby-establishments', async function(req, res) {
     axios.get(url)
     .then(response => {
         let data = response.data;
-        // console.log(data);
 
         if (data.status === 'OK') {
             // get the place_id from every place
@@ -162,14 +160,38 @@ app.get('/api/photo', async function(req, res) {
     const url = BASE_PHOTO_URL + "?maxwidth=300&photoreference=" + photo_id +"&key=" + API_KEY;
     request.get(url).pipe(res);
 
-    // axios.get(url, {
-    //     responseType: 'stream'
-    // })
-    // .then(response => {
-    //     res.send()
-    // });
-
     // res.sendFile(__dirname + '/canada.png'); // for testing
+});
+
+app.post('/api/contact', function(req, res) {
+    const email = req.body.email ? req.body.email : 'Anonymous';
+    const subject = req.body.subject ? req.body.subject : 'No subject';
+    const message = req.body.message;
+    // console.log(req.body);
+    var transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        user: process.env.NEARBY_RESTAURANT_EMAIL,
+        pass: process.env.NEARBY_RESTAURANT_EMAIL_PASSWORD
+      }
+    });
+    
+    var mailOptions = {
+      from: process.env.NEARBY_RESTAURANT_EMAIL,
+      to: process.env.NEARBY_RESTAURANT_EMAIL,
+      subject: subject + "; from " + email,
+      text: message
+    };
+    
+    transporter.sendMail(mailOptions, function(error, info){
+      if (error) {
+        console.log(error);
+        sendErrorResponse(error.name, error.message, res);
+      } else {
+        console.log('Email sent: ' + info.response);
+        res.send({status: 'success'});
+      }
+    });
 });
 
 app.listen(process.env.PORT || 3001);
