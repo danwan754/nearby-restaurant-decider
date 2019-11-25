@@ -38,5 +38,5 @@ NEARBY_RESTAURANT_EMAIL_PASSWORD  &nbsp;&nbsp;&nbsp;&nbsp; (for receiving feedba
 PORT  &nbsp;&nbsp;&nbsp;&nbsp; (default port 3001)
 
 #### External APIs
-Google Geocoding API
+Google Geocoding API<br>
 Google Places API
