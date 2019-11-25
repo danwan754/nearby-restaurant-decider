@@ -8,10 +8,9 @@ class ResultDetail extends React.Component {
 
     render() {
         if (Object.keys(this.props.place).length === 0) {
-            console.log("No results");
             return (
                 <div>
-                    No results.
+                    No results found for your area. If possible, try again with a bigger radius.
                 </div>
             );
         }
