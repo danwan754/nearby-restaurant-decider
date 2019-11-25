@@ -24,7 +24,7 @@ app.use(bodyParser.json());
 
 
 
-const API_KEY = process.env.GOOGLE_SECRET_KEY || "test_key";
+const API_KEY = process.env.GOOGLE_API_KEY || "test_key";
 const BASE_PLACE_URL = "https://maps.googleapis.com/maps/api/place";
 const BASE_GEOCODE_URL = "https://maps.googleapis.com/maps/api/geocode/json";
 const BASE_PHOTO_URL = "https://maps.googleapis.com/maps/api/place/photo";
