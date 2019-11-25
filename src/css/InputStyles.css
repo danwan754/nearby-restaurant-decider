@@ -3,8 +3,6 @@
     text-align: center;
     padding: 10px;
     margin: 25px;
-    
-    /* border: solid blue 2px; */
 }
 
 table {
@@ -25,8 +23,6 @@ th {
     display: inline-flex;
     justify-content: center;
     align-items: center;
-
-    /* border: solid 2px purple; */
 }
 
 input, select {
@@ -42,7 +38,6 @@ input, select {
 
 input, select:focus { 
     outline: none;
-    /* box-shadow: 3px 3px 10px 0 #000; */
 }
 
 .inline {
@@ -62,7 +57,6 @@ input, select:focus {
 }
 
 .input-submit {
-    /* display: inline-block; */
     background: #00aaff;
     color: white;
     font-weight: bold;
