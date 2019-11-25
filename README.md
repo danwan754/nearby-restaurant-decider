@@ -10,16 +10,16 @@ The intention is for you to eat at the first location shown. However, you can sk
 
 ------------------------------
 #### Provide the following 3 inputs:
-##### Establishment type:
+##### 1. Establishment type:
 - restaurant
 - cafe
 - bar
 - bakery
 
-##### Radius:
+##### 2. Radius:
 200 to 2500 meters
 
-##### Postal Code:
+##### 3. Postal Code:
 Ex. v2h4k5
 
 ------------------
