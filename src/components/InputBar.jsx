@@ -36,12 +36,9 @@ class InputBar extends React.Component {
     }
 
     componentDidMount() {
-        // change initial values in query_data if queried from Home page
         if (this.props.query_data) {
             this.setState({ query_data: this.props.query_data });
-            // this.handleSubmit();
         }
-        // console.log("componentDidmount at InputBar");
     }
 
     // handles establishment selection
@@ -68,7 +65,6 @@ class InputBar extends React.Component {
             this.props.onSubmit(this.state.query_data);
         }
         else {
-            // display error message
             console.log("invalid postal code");
         }
     }

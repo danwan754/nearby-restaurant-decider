@@ -8,14 +8,10 @@ export function fetchPhoto(photoID) {
         })
         .then(image => {
             let image_url = URL.createObjectURL(image);
-            // console.log("photo: " + image_url);
             return image_url;
         })
         .catch(error => {
-            // console.log("error in photo fetching:");
             throw new Error(error);
-            // console.log(error);
-            // return {error: error};
         })
     )
 }
@@ -34,15 +30,12 @@ export function getPlaceDetails(placeID) {
             }
         })
         .then(data => {
-            // console.log(data);
             if (data.error) {
                 throw new Error(data.error + "; " + data.error_message);
             }
             return data;
         })
         .catch(error => {
-            // console.log("error in getPlaceDetails");
-            // console.log(error);
             throw error;
         })
     )
@@ -68,8 +61,6 @@ export function getNearByEstablishments(queryString) {
             return data;
         })
         .catch(error => {
-            // console.log("error in getNearbyEstablishments:");
-            // console.log(error);
             throw error;
         })
     )

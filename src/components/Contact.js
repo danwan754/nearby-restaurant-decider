@@ -41,8 +41,6 @@ class Contact extends React.Component {
             }
         })
         .catch(error => {
-            console.log('failed to submit form');
-            console.log(error.name + ": " + error.message);
             this.setState({
                 message: error.message,
                 isError: true

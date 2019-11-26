@@ -48,7 +48,6 @@ class Gallery extends React.Component {
             this.setState({
                 currentIndices: indices
             });
-            console.log('no fetch needed');
             return;
         }
         // if no more photos to fetch, then do not update and return
