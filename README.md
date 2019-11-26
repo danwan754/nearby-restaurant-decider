@@ -1,5 +1,3 @@
-(work in progress)
-
 ## Nearby Restaurant Decider
 
 Can't decide where to eat? Let this app choose for you. (Only available for Canada.)<br>
@@ -23,22 +21,23 @@ First, the user provides the required inputs and starts the search. The postal c
 - bakery
 
 ##### 2. Radius:
-200 to 2500 meters
+- 200 to 2500 meters
 
 ##### 3. Postal Code:
-Ex. v2h4k5
+- Ex. v2h4k5
 
 ------------------
 ### Development / Demo
 #### Environment variables:
 ##### Required:
-GOOGLE_API_KEY<br>
-NEARBY_RESTAURANT_EMAIL<br>
-NEARBY_RESTAURANT_EMAIL_PASSWORD  &nbsp;&nbsp;&nbsp;&nbsp; (for receiving feedback through contact form)
+GOOGLE_API_KEY &nbsp;&nbsp;&nbsp;&nbsp; (API key to retreive all result data ie. location, photos, reviews, ...)
 
 ##### Optional:
-PORT  &nbsp;&nbsp;&nbsp;&nbsp; (default port 3001)
+PORT  &nbsp;&nbsp;&nbsp;&nbsp; (port number to run server, defaults to 3001)<br>
+NEARBY_RESTAURANT_EMAIL &nbsp;&nbsp;&nbsp;&nbsp; (email address for receiving feedback through contact form)<br>
+NEARBY_RESTAURANT_EMAIL_PASSWORD  &nbsp;&nbsp;&nbsp;&nbsp; (password for the email)
 
-#### External APIs
+
+#### External APIs used:
 Google Geocoding API<br>
 Google Places API
