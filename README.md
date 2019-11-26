@@ -28,6 +28,7 @@ First, the user provides the required inputs and starts the search. The postal c
 
 ------------------
 ### Development / Demo
+\* *Caution on cloning app for demo: an API key for Google Cloud Services is required and registering is quite tedious*
 
 #### Environment variables:
 |Required: | |
