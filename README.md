@@ -30,14 +30,17 @@ First, the user provides the required inputs and starts the search. The postal c
 ### Development / Demo
 
 #### Environment variables:
-##### Required:
-GOOGLE_API_KEY &nbsp;&nbsp;&nbsp;&nbsp; (API key to retreive all result data ie. location, photos, reviews, ...)
+|Required: | |
+:---|---|
+| GOOGLE_API_KEY | API key to retreive result data, ie. location, photos, reviews, ... |
+| | |
+|**Optional:** | |
+| PORT | Port number to run server, defaults to 3001 |
+| NEARBY_RESTAURANT_EMAIL | Email address for receiving feedback through contact form |
+| NEARBY_RESTAURANT_EMAIL_PASSWORD | Password for the email |
 
-##### Optional:
-PORT  &nbsp;&nbsp;&nbsp;&nbsp; (port number to run server, defaults to 3001)<br>
-NEARBY_RESTAURANT_EMAIL &nbsp;&nbsp;&nbsp;&nbsp; (email address for receiving feedback through contact form)<br>
-NEARBY_RESTAURANT_EMAIL_PASSWORD  &nbsp;&nbsp;&nbsp;&nbsp; (password for the email)
-
+Example of setting an environment variable in a Linux terminal:
+> export GOOGLE_API_KEY="some_value"
 
 ### Install and run
 > git clone https://github.com/danwan754/nearby-restaurant-decider.git<br>
@@ -46,10 +49,11 @@ NEARBY_RESTAURANT_EMAIL_PASSWORD  &nbsp;&nbsp;&nbsp;&nbsp; (password for the ema
 > npm start
 
 The above commands starts up the client, but the server also needs to be running. 
-Open another terminal and in the */nearby-restaurant-decider* directory,  run:
-> node ./server/server.js
+Open another terminal and in the */nearby-restaurant-decider/server* directory,  run:
+> npm install<br>
+> node server.js
 
-
+Now the website should be usuable.
 
 #### External APIs used:
 Google Geocoding API<br>
