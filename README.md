@@ -8,6 +8,8 @@ This app will randomly choose a nearby establishment with high ratings. Get info
 
 The intention is for you to eat at the first location shown. However, you can skip this result and get another location, if you must.
 
+![N/A](https://gfycat.com/weeklyagitatedborderterrier)
+
 #### How the app works
 
 First, the user provides the required inputs and starts the search. The postal code is geocoded to get the latitude and longitude, which are then used to request a list of nearby establishments. A random establishment from the list will be chosen and presented to the user in detail. The user can skip the currently displayed establishment and details of another random establishment from the remainder of the list will be displayed.
