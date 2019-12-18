@@ -140,7 +140,7 @@ app.get('/api/place-details', async function(req, res) {
     axios.get(url)
     .then(response => {
         let data = response.data;
-        console.log(data.result);
+        // console.log(data.result);
         if (data.status == 'OK') {
             res.send(data.result);
         }
