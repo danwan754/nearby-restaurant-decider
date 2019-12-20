@@ -18,10 +18,10 @@ app.use(bodyParser.json());
 // Serve all static files
 app.use(express.static(path.join(__dirname, 'client/build')));
 
-// Serve index.html on unknown routes
-app.get('/*', function (req, res) {
-    res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
-});
+// // Serve index.html on unknown routes
+// app.get('/*', function (req, res) {
+//     res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
+// });
 
 
 const API_KEY = process.env.GOOGLE_API_KEY || "test_key";
@@ -135,12 +135,10 @@ app.get('/api/nearby-establishments', async function(req, res) {
 app.get('/api/place-details', async function(req, res) {
     const place_id = req.query.place_id;
     let url = PLACE_DETAILS_URL + place_id + PLACE_DETAILS_PARAMS;
-    // console.log(url);
 
     axios.get(url)
     .then(response => {
         let data = response.data;
-        // console.log(data.result);
         if (data.status == 'OK') {
             res.send(data.result);
         }
@@ -156,18 +154,14 @@ app.get('/api/place-details', async function(req, res) {
 
 app.get('/api/photo', async function(req, res) {
     const photo_id = req.query.id;
-    // console.log(photo_id);
     const url = BASE_PHOTO_URL + "?maxwidth=300&photoreference=" + photo_id +"&key=" + API_KEY;
     request.get(url).pipe(res);
-
-    // res.sendFile(__dirname + '/canada.png'); // for testing
 });
 
 app.post('/api/contact', function(req, res) {
     const email = req.body.email ? req.body.email : 'Anonymous';
     const subject = req.body.subject ? req.body.subject : 'No subject';
     const message = req.body.message;
-    // console.log(req.body);
     var transporter = nodemailer.createTransport({
       service: 'gmail',
       auth: {
