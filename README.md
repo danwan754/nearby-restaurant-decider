@@ -14,20 +14,6 @@ Demo: https://nearby-restaurant-decider.herokuapp.com/<br><br>
 
 First, the user provides the required inputs and starts the search. The postal code is geocoded to get the latitude and longitude, which are then used to request a list of nearby establishments. A random establishment from the list will be chosen and presented to the user in detail. The user can skip the currently displayed establishment and details of another random establishment from the remainder of the list will be displayed.
 
-------------------------------
-#### Provide the following 3 inputs:
-##### 1. Establishment type:
-- restaurant
-- cafe
-- bar
-- bakery
-
-##### 2. Radius:
-- 200 to 2500 meters
-
-##### 3. Postal Code:
-- Ex. v2h4k5
-
 ------------------
 ### Development / Demo
 \* *Caution on cloning app for demo: an API key for Google Cloud Services is required and registering is quite tedious*
@@ -46,17 +32,24 @@ Example of setting an environment variable in a Linux terminal:
 > export GOOGLE_API_KEY="some_value"
 
 ### Install and run
-> git clone https://github.com/danwan754/nearby-restaurant-decider.git<br>
-> cd nearby-restaurant-decider<br>
-> npm install<br>
-> npm start
 
-The above commands starts up the client, but the server also needs to be running. 
-Open another terminal and in the */nearby-restaurant-decider/server* directory,  run:
-> npm install<br>
-> node server.js
+Set the required environment variable:
+> GOOGLE_API_KEY="\<YOUR API KEY\>"
 
-Now the website should be usuable.
+Clone this repo and change into this project's directory:
+> git clone https://github.com/danwan754/nearby-restaurant-decider.git;<br>
+> cd nearby-restaurant-decider;
+
+Install the server dependencies and then run the server:
+> npm install;<br>
+> npm start;
+
+Install client dependencies and run client development server by opening another terminal and in the */nearby-restaurant-decider/client* directory,  run:
+> npm install;<br>
+> npm start;
+
+Now the web app can be accessed in http://localhost:3000/
+
 
 #### External APIs used:
 Google Geocoding API<br>
