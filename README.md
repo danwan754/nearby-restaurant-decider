@@ -6,6 +6,8 @@ This app will randomly choose a nearby establishment with high ratings. Get info
 
 The intention is for you to eat at the first location shown. However, you can skip this result and get another location, if you must.
 
+Demo: https://nearby-restaurant-decider.herokuapp.com/<br><br>
+
 ![Demo gif](../assets/demo.gif)
 
 #### How the app works
