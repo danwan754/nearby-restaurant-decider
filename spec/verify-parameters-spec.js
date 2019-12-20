@@ -70,7 +70,5 @@ describe("Verify Parameters Module.", function () {
         it("Uppercase letters are acceptable.", function () {
             expect(verify.isCountryCode("CA")).toBe(true);
         });
-    })
-
-    // describe("Verify ")
+    });
 });

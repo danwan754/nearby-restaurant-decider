@@ -15,13 +15,13 @@ app.use(bodyParser.json());
 
 
 
-// // send the react app
-// app.get('/', function (req, res) {
-//     res.sendFile(path.join(__dirname, 'build', 'index.html'));
-//    });
-// // Serve any static files
-// app.use(express.static(path.join(__dirname, 'build')));
+// Serve all static files
+app.use(express.static(path.join(__dirname, 'client/build')));
 
+// Serve index.html on unknown routes
+app.get('/*', function (req, res) {
+    res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
+});
 
 
 const API_KEY = process.env.GOOGLE_API_KEY || "test_key";
