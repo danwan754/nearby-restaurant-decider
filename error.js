@@ -4,7 +4,7 @@ function getGoogleErrorMessage(status) {
     let message;
     switch(status) {
         case 'ZERO_RESULTS':
-            message = 'No results found. Your location may be too remote.';
+            message = 'No results found. Your location may be too remote. Maybe try a larger radius.';
             break;
         case 'OVER_QUERY_LIMIT':
             message = 'Quota for this website has been reached. Try another day.';
