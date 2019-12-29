@@ -1,5 +1,6 @@
 const verify = require("./verify-parameters.js");
 const { GoogleRequestException } = require('./error.js');
+let sort = require('./utils/sort.js');
 
 const express = require('express');
 const bodyParser = require('body-parser');
@@ -140,6 +141,9 @@ app.get('/api/place-details', async function(req, res) {
     .then(response => {
         let data = response.data;
         if (data.status == 'OK') {
+            // sort the reviews by date from most recent to oldest
+            data.result.reviews = sort.bubbleSort(data.result.reviews);
+
             res.send(data.result);
         }
         else {
