@@ -28,13 +28,11 @@ First, the user provides the required inputs and starts the search. The postal c
 | NEARBY_RESTAURANT_EMAIL | Email address for receiving feedback through contact form |
 | NEARBY_RESTAURANT_EMAIL_PASSWORD | Password for the email |
 
-Example of setting an environment variable in a Linux terminal:
-> export GOOGLE_API_KEY="some_value"
 
-### Install and run
+### Install and run (using Linux terminal)
 
 Set the required environment variable:
-> GOOGLE_API_KEY="\<YOUR API KEY\>"
+> export GOOGLE_API_KEY="\<YOUR API KEY\>"
 
 Clone this repo and change into this project's directory:
 > git clone https://github.com/danwan754/nearby-restaurant-decider.git;<br>
